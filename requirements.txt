@@ -1,0 +1,11 @@
+openai
+python-dotenv
+requests
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+scipy
+statsmodels
+
