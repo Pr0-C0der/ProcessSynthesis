@@ -1,0 +1,220 @@
+{
+  "metadata": {
+    "name": "master_chain_absorbing",
+    "description": "4-state absorbing Markov chain master equation: p_i'(t) = sum_j w_{ji} p_j - sum_j w_{ij} p_i, with p(0) = [1,0,0,0] and state 4 absorbing."
+  },
+  "variables": {
+    "independent": [
+      "t"
+    ],
+    "dependent": [
+      "p1",
+      "p2",
+      "p3",
+      "p4"
+    ]
+  },
+  "parameters": {
+    "w12": 0.2,
+    "w23": 0.1,
+    "w34": 0.05
+  },
+  "domain": {
+    "t": [
+      0.0,
+      10.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "p1_time_derivative",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "p1",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "const",
+            "value": -0.2
+          },
+          {
+            "type": "dep",
+            "name": "p1"
+          }
+        ]
+      }
+    },
+    {
+      "equation_id": "p2_time_derivative",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "p2",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 0.2
+              },
+              {
+                "type": "dep",
+                "name": "p1"
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -0.1
+              },
+              {
+                "type": "dep",
+                "name": "p2"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "equation_id": "p3_time_derivative",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "p3",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 0.1
+              },
+              {
+                "type": "dep",
+                "name": "p2"
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -0.05
+              },
+              {
+                "type": "dep",
+                "name": "p3"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "equation_id": "p4_time_derivative",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "p4",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "const",
+            "value": 0.05
+          },
+          {
+            "type": "dep",
+            "name": "p3"
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "p1",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 1.0
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "p2",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "p3",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "p4",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "absorbing",
+      "dep": "p4",
+      "spec": "boundary",
+      "notes": "state 4 is absorbing; probability accumulates there"
+    }
+  ]
+}

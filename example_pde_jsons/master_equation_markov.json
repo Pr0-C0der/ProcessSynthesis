@@ -1,0 +1,160 @@
+{
+  "metadata": {
+    "name": "master_equation_markov",
+    "description": "Two-state continuous-time Markov chain master equation: p1'(t) = w21 * p2(t) - w12 * p1(t); p2'(t) = w12 * p1(t) - w21 * p2(t)."
+  },
+  "variables": {
+    "independent": [
+      "t"
+    ],
+    "dependent": [
+      "p1",
+      "p2"
+    ]
+  },
+  "parameters": {
+    "w_12": null,
+    "w_21": null
+  },
+  "domain": {
+    "t": [
+      0.0,
+      10.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "p1_dynamics",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "p1",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "w_21"
+              },
+              {
+                "type": "dep",
+                "name": "p2"
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -1
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "w_12"
+                  },
+                  {
+                    "type": "dep",
+                    "name": "p1"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "equation_id": "p2_dynamics",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "p2",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "w_12"
+              },
+              {
+                "type": "dep",
+                "name": "p1"
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -1
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "w_21"
+                  },
+                  {
+                    "type": "dep",
+                    "name": "p2"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "p1",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 1.0
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "p2",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      }
+    }
+  ],
+  "boundary_conditions": []
+}

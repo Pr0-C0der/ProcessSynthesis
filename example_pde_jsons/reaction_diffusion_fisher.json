@@ -1,0 +1,146 @@
+{
+  "metadata": {
+    "name": "Reaction-Diffusion Fisher (u_t = D u_xx + r u (1 - u))",
+    "description": "Single PDE: Fisher-KPP reaction-diffusion equation for u(x,t) on x in [0,1], t in [0,1], with Neumann boundary conditions du/dx=0 at x=0 and x=1 and initial condition u(x,0)=0.1 exp(-100 (x-0.5)^2)."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "D": 0.01,
+    "r": 1.0
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "reaction_diffusion_fisher",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "D"
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "x",
+                "order": 2
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "r"
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  },
+                  {
+                    "type": "op",
+                    "op": "-",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": 1
+                      },
+                      {
+                        "type": "dep",
+                        "name": "u"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "u0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "neumann",
+      "dep": "u",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "x",
+        "order": 1
+      },
+      "notes": "du/dx = 0 at x = 0 (Neumann boundary)"
+    },
+    {
+      "type": "neumann",
+      "dep": "u",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "x",
+        "order": 1
+      },
+      "notes": "du/dx = 0 at x = 1 (Neumann boundary)"
+    }
+  ]
+}

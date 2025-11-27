@@ -1,0 +1,198 @@
+{
+  "metadata": {
+    "name": "cahn_hilliard_1d",
+    "description": "One-dimensional Cahn-Hilliard equation: u_t = M [ - (u - u^3)_{xx} + epsilon * u_{xxxx} ], with IC u(x,0) = 0.02 rand(x) + 0.5 sin(2*pi*x), periodic in x on [0,1]."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "M": 1.0,
+    "epsilon": 0.001
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "cahn_hilliard_1d",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "param",
+            "name": "M"
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": -1
+                  },
+                  {
+                    "type": "op",
+                    "op": "-",
+                    "args": [
+                      {
+                        "type": "op",
+                        "op": "-",
+                        "args": [
+                          {
+                            "type": "op",
+                            "op": "*",
+                            "args": [
+                              {
+                                "type": "dep",
+                                "name": "u"
+                              },
+                              {
+                                "type": "dep",
+                                "name": "u"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "op",
+                            "op": "*",
+                            "args": [
+                              {
+                                "type": "dep",
+                                "name": "u"
+                              },
+                              {
+                                "type": "deriv",
+                                "dep": "u",
+                                "wrt": "x",
+                                "order": 1
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "epsilon"
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 4
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 0.02
+              },
+              {
+                "type": "fn",
+                "name": "rand",
+                "args": [
+                  {
+                    "type": "var",
+                    "name": "x"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 0.5
+              },
+              {
+                "type": "fn",
+                "name": "sin",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": 6.283185307179586
+                      },
+                      {
+                        "type": "var",
+                        "name": "x"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "periodic",
+      "dep": "u",
+      "spec": "boundary",
+      "notes": "periodic boundary in x on [0,1]"
+    }
+  ]
+}

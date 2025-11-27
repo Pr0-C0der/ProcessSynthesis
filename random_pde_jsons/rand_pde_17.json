@@ -1,0 +1,212 @@
+{
+  "metadata": {
+    "name": "rand_pde_17",
+    "description": "1D PDE: u_t = p(x) u_xx - q (u_x)^3 + s u, with u(0,t)=0.2 and u(1,t)=0.2; IC: u(x,0)=0.2+0.1 sin(pi x)."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "q": 0.2,
+    "s": -0.05
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "rand_pde_17",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": 0.01
+                  },
+                  {
+                    "type": "op",
+                    "op": "+",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": 1
+                      },
+                      {
+                        "type": "var",
+                        "name": "x"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "x",
+                "order": 2
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -0.2
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 1
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "deriv",
+                        "dep": "u",
+                        "wrt": "x",
+                        "order": 1
+                      },
+                      {
+                        "type": "deriv",
+                        "dep": "u",
+                        "wrt": "x",
+                        "order": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -0.05
+              },
+              {
+                "type": "dep",
+                "name": "u"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "const",
+            "value": 0.2
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 0.1
+              },
+              {
+                "type": "fn",
+                "name": "sin",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": 3.141592653589793
+                      },
+                      {
+                        "type": "var",
+                        "name": "x"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.2
+      },
+      "notes": "u(0,t) = 0.2"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.2
+      },
+      "notes": "u(1,t) = 0.2"
+    }
+  ]
+}

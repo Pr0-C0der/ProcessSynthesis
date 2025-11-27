@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "name": "1D mKdV (u_t + alpha*u^2*u_x + beta*u_xxx = 0)",
+    "description": "One-dimensional modified Korteweg–de Vries equation with periodic boundary conditions in x over [0,1]."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "alpha": 6.0,
+    "beta": 1.0
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "u_mKdV",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "t",
+            "order": 1
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "alpha"
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "^",
+                    "args": [
+                      {
+                        "type": "dep",
+                        "name": "u"
+                      },
+                      {
+                        "type": "const",
+                        "value": 2
+                      }
+                    ]
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "beta"
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "x",
+                "order": 3
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "const",
+        "value": 0
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "const",
+            "value": 1.5
+          },
+          {
+            "type": "fn",
+            "name": "sech",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": 10
+                  },
+                  {
+                    "type": "op",
+                    "op": "-",
+                    "args": [
+                      {
+                        "type": "dep",
+                        "name": "x"
+                      },
+                      {
+                        "type": "const",
+                        "value": 0.5
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "periodic",
+      "dep": "u",
+      "spec": {
+        "domain": {
+          "x": [
+            0.0,
+            1.0
+          ]
+        }
+      },
+      "notes": "periodic boundary in x on [0,1]"
+    }
+  ]
+}

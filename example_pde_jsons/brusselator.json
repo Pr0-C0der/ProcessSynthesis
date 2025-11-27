@@ -1,0 +1,280 @@
+{
+  "metadata": {
+    "name": "Brusselator in 1D (u,v) with diffusion and reaction terms",
+    "description": "A 1D Brusselator PDE system with diffusion in x, temporal evolution, and nonlinear reaction terms. Includes ICs and Neumann boundary conditions (zero flux) at x=0 and x=1."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u",
+      "v"
+    ]
+  },
+  "parameters": {
+    "A": 1.0,
+    "B": 3.5,
+    "D_u": 0.001,
+    "D_v": 0.005
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "u_brusselator",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "D_u"
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "x",
+                "order": 2
+              }
+            ]
+          },
+          {
+            "type": "param",
+            "name": "A"
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -1
+              },
+              {
+                "type": "op",
+                "op": "+",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "B"
+                  },
+                  {
+                    "type": "const",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "dep",
+                "name": "u"
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "dep",
+                "name": "u"
+              },
+              {
+                "type": "dep",
+                "name": "u"
+              },
+              {
+                "type": "dep",
+                "name": "v"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "equation_id": "v_brusselator",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "v",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "D_v"
+              },
+              {
+                "type": "deriv",
+                "dep": "v",
+                "wrt": "x",
+                "order": 2
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "B"
+              },
+              {
+                "type": "dep",
+                "name": "u"
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -1
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  },
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  },
+                  {
+                    "type": "dep",
+                    "name": "v"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "u0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "v",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "v0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "neumann",
+      "dep": "u",
+      "wrt": "x",
+      "location": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "zero flux at x=0"
+    },
+    {
+      "type": "neumann",
+      "dep": "u",
+      "wrt": "x",
+      "location": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "zero flux at x=1"
+    },
+    {
+      "type": "neumann",
+      "dep": "v",
+      "wrt": "x",
+      "location": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "zero flux at x=0"
+    },
+    {
+      "type": "neumann",
+      "dep": "v",
+      "wrt": "x",
+      "location": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "zero flux at x=1"
+    }
+  ]
+}

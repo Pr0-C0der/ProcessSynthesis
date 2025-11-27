@@ -1,0 +1,121 @@
+{
+  "metadata": {
+    "name": "Nonlinear Heat Equation (u_t = k u_xx + u^2) in 1D",
+    "description": "Single PDE: time-dependent heat equation with nonlinear source term u^2, 0 <= x <= 1, with IC at t=0 and Dirichlet BCs at x=0 and x=1."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "k": 0.1
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "nonlinear_heat",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "k"
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "x",
+                "order": 2
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "dep",
+                "name": "u"
+              },
+              {
+                "type": "dep",
+                "name": "u"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "u0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "u = 0 at x = 0"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "u = 0 at x = 1"
+    }
+  ]
+}

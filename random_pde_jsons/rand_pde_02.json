@@ -1,0 +1,184 @@
+{
+  "metadata": {
+    "name": "rand_pde_02 - u_t = alpha*(u^p)_{xx} - beta*u_x*u + gamma",
+    "description": "Scalar nonlinear PDE with nonlinear diffusion (p=2), rewritten to a form suitable for the operator-tree schema. Includes ICs and Neumann BCs at x=0 and x=1."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "alpha": 0.05,
+    "beta": 1.0,
+    "gamma": 0.01,
+    "p": 2
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "u_pde",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 2
+              },
+              {
+                "type": "param",
+                "name": "alpha"
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 2
+              },
+              {
+                "type": "param",
+                "name": "alpha"
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 1
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -1
+              },
+              {
+                "type": "param",
+                "name": "beta"
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "x",
+                "order": 1
+              },
+              {
+                "type": "dep",
+                "name": "u"
+              }
+            ]
+          },
+          {
+            "type": "param",
+            "name": "gamma"
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "u0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "neumann",
+      "dep": "u",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "zero flux: du/dx = 0 at x = 0"
+    },
+    {
+      "type": "neumann",
+      "dep": "u",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "zero flux: du/dx = 0 at x = 1"
+    }
+  ]
+}

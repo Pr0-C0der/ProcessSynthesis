@@ -1,0 +1,141 @@
+{
+  "metadata": {
+    "name": "poisson_neumann_zeroavg",
+    "description": "Poisson equation u_xx + u_yy = f(x,y) on [0,1]^2 with Neumann boundary conditions du/dn = 0 and zero mean for solvability. f(x,y) = cos(pi x)."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "y"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "pi": 3.141592653589793
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "y": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "poisson",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "x",
+            "order": 2
+          },
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "y",
+            "order": 2
+          }
+        ]
+      },
+      "rhs": {
+        "type": "fn",
+        "name": "cos",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "pi"
+              },
+              {
+                "type": "var",
+                "name": "x"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [],
+  "boundary_conditions": [
+    {
+      "type": "neumann",
+      "dep": "u",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "x",
+        "order": 1
+      },
+      "notes": "zero Neumann on boundary x=0"
+    },
+    {
+      "type": "neumann",
+      "dep": "u",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "x",
+        "order": 1
+      },
+      "notes": "zero Neumann on boundary x=1"
+    },
+    {
+      "type": "neumann",
+      "dep": "u",
+      "spec": {
+        "y": 0.0
+      },
+      "value_expr": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "y",
+        "order": 1
+      },
+      "notes": "zero Neumann on boundary y=0"
+    },
+    {
+      "type": "neumann",
+      "dep": "u",
+      "spec": {
+        "y": 1.0
+      },
+      "value_expr": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "y",
+        "order": 1
+      },
+      "notes": "zero Neumann on boundary y=1"
+    },
+    {
+      "type": "constraint",
+      "dep": "u",
+      "spec": null,
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "enforce zero mean of u over domain for solvability"
+    }
+  ]
+}

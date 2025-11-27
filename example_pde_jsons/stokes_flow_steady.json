@@ -1,0 +1,198 @@
+{
+  "metadata": {
+    "name": "stokes_flow_steady",
+    "description": "Steady Stokes flow in a unit square with no-slip boundary; system of u-momentum, v-momentum, and incompressibility."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "y"
+    ],
+    "dependent": [
+      "u",
+      "v",
+      "p"
+    ]
+  },
+  "parameters": {
+    "mu": 1.0,
+    "f_x": 0.0,
+    "f_y": 0.0
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "y": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "u_momentum",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -1
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "mu"
+                  },
+                  {
+                    "type": "op",
+                    "op": "+",
+                    "args": [
+                      {
+                        "type": "deriv",
+                        "dep": "u",
+                        "wrt": "x",
+                        "order": 2
+                      },
+                      {
+                        "type": "deriv",
+                        "dep": "u",
+                        "wrt": "y",
+                        "order": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "deriv",
+            "dep": "p",
+            "wrt": "x",
+            "order": 1
+          }
+        ]
+      },
+      "rhs": {
+        "type": "param",
+        "name": "f_x"
+      }
+    },
+    {
+      "equation_id": "v_momentum",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -1
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "mu"
+                  },
+                  {
+                    "type": "op",
+                    "op": "+",
+                    "args": [
+                      {
+                        "type": "deriv",
+                        "dep": "v",
+                        "wrt": "x",
+                        "order": 2
+                      },
+                      {
+                        "type": "deriv",
+                        "dep": "v",
+                        "wrt": "y",
+                        "order": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "deriv",
+            "dep": "p",
+            "wrt": "y",
+            "order": 1
+          }
+        ]
+      },
+      "rhs": {
+        "type": "param",
+        "name": "f_y"
+      }
+    },
+    {
+      "equation_id": "continuity",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "x",
+            "order": 1
+          },
+          {
+            "type": "deriv",
+            "dep": "v",
+            "wrt": "y",
+            "order": 1
+          }
+        ]
+      },
+      "rhs": {
+        "type": "const",
+        "value": 0
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": "boundary",
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "no-slip: u = 0 on all walls"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "v",
+      "spec": "boundary",
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "no-slip: v = 0 on all walls"
+    }
+  ]
+}

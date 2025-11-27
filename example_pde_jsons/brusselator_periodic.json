@@ -1,0 +1,320 @@
+{
+  "metadata": {
+    "name": "brusselator_periodic",
+    "description": "Brusselator reaction-diffusion system with periodic boundary in x: u_t = D_u u_xx + A - (B+1) u + u^2 v, v_t = D_v v_xx + B u - u^2 v."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u",
+      "v"
+    ]
+  },
+  "parameters": {
+    "A": 1.0,
+    "B": 3.7,
+    "Du": 0.001,
+    "Dv": 0.008
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "u_brusselator",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "Du"
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "x",
+                "order": 2
+              }
+            ]
+          },
+          {
+            "type": "param",
+            "name": "A"
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -1
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "+",
+                    "args": [
+                      {
+                        "type": "param",
+                        "name": "B"
+                      },
+                      {
+                        "type": "const",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  },
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  }
+                ]
+              },
+              {
+                "type": "dep",
+                "name": "v"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "equation_id": "v_brusselator",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "v",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "Dv"
+              },
+              {
+                "type": "deriv",
+                "dep": "v",
+                "wrt": "x",
+                "order": 2
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "B"
+              },
+              {
+                "type": "dep",
+                "name": "u"
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -1
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "dep",
+                        "name": "u"
+                      },
+                      {
+                        "type": "dep",
+                        "name": "u"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "dep",
+                    "name": "v"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "param",
+            "name": "A"
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 0.001
+              },
+              {
+                "type": "fn",
+                "name": "cos",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": 6.283185307179586
+                      },
+                      {
+                        "type": "var",
+                        "name": "x"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "v",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "const",
+            "value": 3.7
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 0.001
+              },
+              {
+                "type": "fn",
+                "name": "sin",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": 6.283185307179586
+                      },
+                      {
+                        "type": "var",
+                        "name": "x"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "periodic",
+      "dep": "u",
+      "spec": "boundary",
+      "value_expr": null,
+      "notes": "periodic boundary in x"
+    },
+    {
+      "type": "periodic",
+      "dep": "v",
+      "spec": "boundary",
+      "value_expr": null,
+      "notes": "periodic boundary in x"
+    }
+  ]
+}

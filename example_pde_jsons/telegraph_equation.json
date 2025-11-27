@@ -1,0 +1,145 @@
+{
+  "metadata": {
+    "name": "telegraph_equation",
+    "description": "Telegraphed wave equation: tau*u_tt + u_t = c^2*u_xx with ICs u(x,0)=exp(-50*(x-0.5)^2), u_t(x,0)=0; BCs u(0,t)=0, u(1,t)=0."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "tau": 0.1,
+    "c": 1.0
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "telegraph_equation",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "tau"
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "t",
+                "order": 2
+              }
+            ]
+          },
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "t",
+            "order": 1
+          }
+        ]
+      },
+      "rhs": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "c"
+              },
+              {
+                "type": "param",
+                "name": "c"
+              }
+            ]
+          },
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "x",
+            "order": 2
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "u0_explicit",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "u_t",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "Dirichlet: u(0,t)=0"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "Dirichlet: u(1,t)=0"
+    }
+  ]
+}

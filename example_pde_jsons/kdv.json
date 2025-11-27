@@ -1,0 +1,161 @@
+{
+  "metadata": {
+    "name": "1D KdV equation (u_t + alpha*u*u_x + beta*u_xxx = 0)",
+    "description": "Korteweg–de Vries equation in 1D with initial condition u(x,0)=2 sech^2(x-0.5) and periodic boundary conditions on x in [0,1]."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "alpha": 6.0,
+    "beta": 1.0
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "kdv",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "t",
+            "order": 1
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "alpha"
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "dep",
+                        "name": "u"
+                      },
+                      {
+                        "type": "deriv",
+                        "dep": "u",
+                        "wrt": "x",
+                        "order": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "beta"
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "const",
+        "value": 0
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "const",
+            "value": 2
+          },
+          {
+            "type": "op",
+            "op": "^",
+            "args": [
+              {
+                "type": "fn",
+                "name": "sech",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "-",
+                    "args": [
+                      {
+                        "type": "var",
+                        "name": "x"
+                      },
+                      {
+                        "type": "const",
+                        "value": 0.5
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "const",
+                "value": 2
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "periodic",
+      "dep": "u",
+      "spec": {
+        "x": [
+          0.0,
+          1.0
+        ]
+      },
+      "notes": "periodic in x on [0,1]"
+    }
+  ]
+}

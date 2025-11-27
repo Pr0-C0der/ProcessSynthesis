@@ -1,0 +1,209 @@
+{
+  "metadata": {
+    "name": "rand_pde_14 - 1D advection-diffusion with nonlinear diffusion",
+    "description": "Single PDE in 1D x-t: u_t + b*u*u_x = c*u_xx + d*(u_xx)^2, with IC at t=0 and Dirichlet BCs on x=0 and x=1."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "b": 0.9,
+    "c": 0.02,
+    "d": 0.001
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "rand_pde_14",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "t",
+            "order": 1
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "b"
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "c"
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "x",
+                "order": 2
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "d"
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 2
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 2
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "const",
+            "value": 1.0
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 0.1
+              },
+              {
+                "type": "fn",
+                "name": "sin",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "op",
+                        "op": "*",
+                        "args": [
+                          {
+                            "type": "const",
+                            "value": 2
+                          },
+                          {
+                            "type": "const",
+                            "value": 3.141592653589793
+                          }
+                        ]
+                      },
+                      {
+                        "type": "var",
+                        "name": "x"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 1.0
+      },
+      "notes": "Dirichlet boundary at x=0"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 1.0
+      },
+      "notes": "Dirichlet boundary at x=1"
+    }
+  ]
+}

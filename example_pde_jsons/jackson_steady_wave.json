@@ -1,0 +1,114 @@
+{
+  "metadata": {
+    "name": "jackson_steady_wave",
+    "description": "Steady 2D Helmholtz equation: u_xx + u_yy + q(x,y) u = 0 with q = 5; Dirichlet BC: u = sin(pi x) on y = 0 and u = 0 on remaining boundary."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "y"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "q": 5
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "y": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "jackson_steady_wave",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "x",
+            "order": 2
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "y",
+                "order": 2
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "q"
+                  },
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "const",
+        "value": 0
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": "boundary",
+      "value_expr": {
+        "type": "fn",
+        "name": "sin",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 3.141592653589793
+              },
+              {
+                "type": "var",
+                "name": "x"
+              }
+            ]
+          }
+        ]
+      },
+      "notes": "u = sin(pi x) on boundary y = 0"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": "boundary",
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "u = 0 on remaining boundary segments"
+    }
+  ]
+}

@@ -1,0 +1,194 @@
+{
+  "metadata": {
+    "name": "rand_pde_09",
+    "description": "Scalar PDE: u_t = a*(u_xx+u_yy) + b*u_x*u_y - c*u^3 on [0,1]^2 with IC and Dirichlet boundary."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "y",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "a": 0.01,
+    "b": 0.2,
+    "c": 1.0
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "y": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "u_time_evolution",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "a"
+              },
+              {
+                "type": "op",
+                "op": "+",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 2
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "y",
+                    "order": 2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "b"
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "deriv",
+                        "dep": "u",
+                        "wrt": "x",
+                        "order": 1
+                      },
+                      {
+                        "type": "deriv",
+                        "dep": "u",
+                        "wrt": "y",
+                        "order": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": -1
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "param",
+                        "name": "c"
+                      },
+                      {
+                        "type": "op",
+                        "op": "*",
+                        "args": [
+                          {
+                            "type": "dep",
+                            "name": "u"
+                          },
+                          {
+                            "type": "op",
+                            "op": "*",
+                            "args": [
+                              {
+                                "type": "dep",
+                                "name": "u"
+                              },
+                              {
+                                "type": "dep",
+                                "name": "u"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "u0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          },
+          {
+            "type": "var",
+            "name": "y"
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": "boundary",
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "Dirichlet u=0 on boundary of [0,1]^2"
+    }
+  ]
+}

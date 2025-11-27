@@ -1,0 +1,152 @@
+{
+  "metadata": {
+    "name": "Biharmonic plate - D*(u_xxxx + 2 u_xxyy + u_yyyy) = q(x,y)",
+    "description": "Static biharmonic PDE for plate deflection u(x,y) on the unit square with clamped boundary (u=0 and du/dn=0). D=1, q(x,y)=sin(pi x) sin(pi y)."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "y"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "D": 1.0
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "y": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "biharmonic_plate",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "param",
+            "name": "D"
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "x",
+                "order": 4
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": 2
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": {
+                      "type": "deriv",
+                      "dep": "u",
+                      "wrt": "x",
+                      "order": 2
+                    },
+                    "wrt": "y",
+                    "order": 2
+                  }
+                ]
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "y",
+                "order": 4
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "fn",
+            "name": "sin",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": 3.141592653589793
+                  },
+                  {
+                    "type": "var",
+                    "name": "x"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "fn",
+            "name": "sin",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": 3.141592653589793
+                  },
+                  {
+                    "type": "var",
+                    "name": "y"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": "boundary",
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "clamped: u = 0 on boundary"
+    },
+    {
+      "type": "neumann",
+      "dep": "u",
+      "spec": "boundary",
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "clamped: du/dn = 0 on boundary"
+    }
+  ]
+}

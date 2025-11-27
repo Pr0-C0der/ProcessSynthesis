@@ -1,0 +1,199 @@
+{
+  "metadata": {
+    "name": "rand_pde_15",
+    "description": "Single PDE: u_t = A*u_xx + B*(u_x)^0.5 - C*u on x in [0,1], t in [0,1], with IC and Neumann BCs."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "A": null,
+    "B": null,
+    "C": null
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "rand_pde_15",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "A"
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "x",
+                "order": 2
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "B"
+              },
+              {
+                "type": "fn",
+                "name": "pow",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 1
+                  },
+                  {
+                    "type": "const",
+                    "value": 0.5
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": -1
+                  },
+                  {
+                    "type": "param",
+                    "name": "C"
+                  }
+                ]
+              },
+              {
+                "type": "dep",
+                "name": "u"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "const",
+            "value": 0.8
+          },
+          {
+            "type": "fn",
+            "name": "exp",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": -100.0
+                  },
+                  {
+                    "type": "fn",
+                    "name": "pow",
+                    "args": [
+                      {
+                        "type": "op",
+                        "op": "+",
+                        "args": [
+                          {
+                            "type": "var",
+                            "name": "x"
+                          },
+                          {
+                            "type": "const",
+                            "value": -0.5
+                          }
+                        ]
+                      },
+                      {
+                        "type": "const",
+                        "value": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "neumann",
+      "dep": "u",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "du/dx = 0 at x = 0"
+    },
+    {
+      "type": "neumann",
+      "dep": "u",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "du/dx = 0 at x = 1"
+    }
+  ]
+}

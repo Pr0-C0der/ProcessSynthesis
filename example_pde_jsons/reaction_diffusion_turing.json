@@ -1,0 +1,309 @@
+{
+  "metadata": {
+    "name": "2D Reaction-Diffusion (u,v) - Turing system",
+    "description": "Two-component reaction-diffusion system on a unit square with Neumann boundary conditions. u_t = D1*(u_xx+u_yy) + f(u,v), v_t = D2*(v_xx+v_yy) + g(u,v), with f(u,v) = -u + u^2/v, g(u,v) = -v + u^2."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "y",
+      "t"
+    ],
+    "dependent": [
+      "u",
+      "v"
+    ]
+  },
+  "parameters": {
+    "D1": 0.001,
+    "D2": 0.01
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "y": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "u_reaction_diffusion",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "D1"
+              },
+              {
+                "type": "op",
+                "op": "+",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 2
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "y",
+                    "order": 2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": -1
+                  },
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "/",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "dep",
+                        "name": "u"
+                      },
+                      {
+                        "type": "dep",
+                        "name": "u"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "dep",
+                    "name": "v"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "equation_id": "v_reaction_diffusion",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "v",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "D2"
+              },
+              {
+                "type": "op",
+                "op": "+",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "v",
+                    "wrt": "x",
+                    "order": 2
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "v",
+                    "wrt": "y",
+                    "order": 2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": -1
+                  },
+                  {
+                    "type": "dep",
+                    "name": "v"
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  },
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "const",
+            "value": 1.0
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 0.01
+              },
+              {
+                "type": "fn",
+                "name": "rand",
+                "args": [
+                  {
+                    "type": "var",
+                    "name": "x"
+                  },
+                  {
+                    "type": "var",
+                    "name": "y"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "v",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "const",
+            "value": 1.0
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 0.01
+              },
+              {
+                "type": "fn",
+                "name": "rand",
+                "args": [
+                  {
+                    "type": "var",
+                    "name": "x"
+                  },
+                  {
+                    "type": "var",
+                    "name": "y"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "neumann",
+      "dep": "u",
+      "spec": "boundary",
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "no-flux: du/dn = 0 on boundary"
+    },
+    {
+      "type": "neumann",
+      "dep": "v",
+      "spec": "boundary",
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "no-flux: dv/dn = 0 on boundary"
+    }
+  ]
+}

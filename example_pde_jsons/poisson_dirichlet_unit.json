@@ -1,0 +1,118 @@
+{
+  "metadata": {
+    "name": "poisson_dirichlet_unit",
+    "description": "Poisson equation on the unit square with Dirichlet boundary: u_xx + u_yy = f(x,y) with f(x,y) = 2*pi^2*sin(pi*x)*sin(pi*y); boundary condition u=0 on the boundary."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "y"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {},
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "y": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "poisson_dirichlet_unit",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "x",
+            "order": 2
+          },
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "y",
+            "order": 2
+          }
+        ]
+      },
+      "rhs": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "const",
+            "value": 19.739208802178716
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "fn",
+                "name": "sin",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": 3.141592653589793
+                      },
+                      {
+                        "type": "var",
+                        "name": "x"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "fn",
+                "name": "sin",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": 3.141592653589793
+                      },
+                      {
+                        "type": "var",
+                        "name": "y"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": "boundary",
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "u = 0 on entire boundary of unit square"
+    }
+  ]
+}

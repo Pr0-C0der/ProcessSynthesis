@@ -1,0 +1,150 @@
+{
+  "metadata": {
+    "name": "helmholtz_dirichlet_disk",
+    "description": "Helmholtz equation ∇^2 u + k^2 u = 0 on the unit disk in polar coordinates (r, θ) with Dirichlet boundary condition u(r=1, θ) = 0."
+  },
+  "variables": {
+    "independent": [
+      "r",
+      "theta"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "k": 3.8317
+  },
+  "domain": {
+    "r": [
+      0.0,
+      1.0
+    ],
+    "theta": [
+      0.0,
+      6.283185307179586
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "helmholtz_dirichlet_disk",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "r",
+            "order": 2
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "op",
+                "op": "/",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": 1
+                  },
+                  {
+                    "type": "dep",
+                    "name": "r"
+                  }
+                ]
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "r",
+                "order": 1
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "op",
+                "op": "/",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": 1
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "dep",
+                        "name": "r"
+                      },
+                      {
+                        "type": "dep",
+                        "name": "r"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "theta",
+                "order": 2
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "k"
+                  },
+                  {
+                    "type": "param",
+                    "name": "k"
+                  }
+                ]
+              },
+              {
+                "type": "dep",
+                "name": "u"
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "const",
+        "value": 0
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "r": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "Dirichlet boundary at disk boundary r=1"
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "metadata": {
+    "name": "Schrodinger box (psi = a + i b) - 1D real-imag decomposition",
+    "description": "Schrodinger equation ihbar psi_t = -(hbar^2/(2m)) psi_xx on x in [0,1], with psi(0,t)=psi(1,t)=0. Decompose psi into real and imaginary parts a=Re(psi), b=Im(psi), leading to coupled PDEs for a and b."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "a",
+      "b"
+    ]
+  },
+  "parameters": {
+    "hbar": 1.0,
+    "m": 1.0
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "a_t_equation",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "a",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "const",
+            "value": -0.5
+          },
+          {
+            "type": "deriv",
+            "dep": "b",
+            "wrt": "x",
+            "order": 2
+          }
+        ]
+      }
+    },
+    {
+      "equation_id": "b_t_equation",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "b",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "const",
+            "value": 0.5
+          },
+          {
+            "type": "deriv",
+            "dep": "a",
+            "wrt": "x",
+            "order": 2
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "a",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "a0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "b",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "b0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "a",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "psi boundary: Re(psi) vanishes at x=0 -> a(0,t)=0"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "a",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "psi boundary: Re(psi) vanishes at x=1 -> a(1,t)=0"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "b",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "psi boundary: Im(psi) vanishes at x=0 -> b(0,t)=0"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "b",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "psi boundary: Im(psi) vanishes at x=1 -> b(1,t)=0"
+    }
+  ]
+}

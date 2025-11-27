@@ -1,0 +1,240 @@
+{
+  "metadata": {
+    "name": "3D Advection-Diffusion (u_t + a_x u_x + a_y u_y + a_z u_z = D*(u_xx+u_yy+u_zz))",
+    "description": "Single PDE in 3D: advection-diffusion with constant velocities a_x, a_y, a_z and diffusion D on [0,1]^3 in x,y,z with Dirichlet boundary and IC u(x,y,z,0)=cos(pi x) cos(pi y) cos(pi z)."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "y",
+      "z",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "a_x": null,
+    "a_y": null,
+    "a_z": null,
+    "D": null
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "y": [
+      0.0,
+      1.0
+    ],
+    "z": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "advection_diffusion_3d",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "t",
+            "order": 1
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "a_x"
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "x",
+                "order": 1
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "a_y"
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "y",
+                "order": 1
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "a_z"
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "z",
+                "order": 1
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "param",
+            "name": "D"
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "x",
+                "order": 2
+              },
+              {
+                "type": "op",
+                "op": "+",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "y",
+                    "order": 2
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "z",
+                    "order": 2
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "fn",
+            "name": "cos",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": 3.141592653589793
+                  },
+                  {
+                    "type": "var",
+                    "name": "x"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "fn",
+                "name": "cos",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": 3.141592653589793
+                      },
+                      {
+                        "type": "var",
+                        "name": "y"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "fn",
+                "name": "cos",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": 3.141592653589793
+                      },
+                      {
+                        "type": "var",
+                        "name": "z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": "boundary",
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "Dirichlet boundary: u = 0 on boundary of [0,1]^3"
+    }
+  ]
+}

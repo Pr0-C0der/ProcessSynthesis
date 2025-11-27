@@ -1,0 +1,178 @@
+{
+  "metadata": {
+    "name": "rand_pde_21",
+    "description": "1D diffusion-advection PDE in x with time: u_t = a(x) u_xx + b(x) u_x + c(x) u, with u(x,0)=sin(pi x) and u(0,t)=0, u(1,t)=0."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "a": {
+      "type": "op",
+      "op": "*",
+      "args": [
+        {
+          "type": "const",
+          "value": 0.01
+        },
+        {
+          "type": "op",
+          "op": "+",
+          "args": [
+            {
+              "type": "const",
+              "value": 1
+            },
+            {
+              "type": "var",
+              "name": "x"
+            }
+          ]
+        }
+      ]
+    },
+    "b": {
+      "type": "op",
+      "op": "*",
+      "args": [
+        {
+          "type": "const",
+          "value": 0.1
+        },
+        {
+          "type": "var",
+          "name": "x"
+        }
+      ]
+    },
+    "c": {
+      "type": "const",
+      "value": -0.05
+    }
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "rand_pde_21",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "a"
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "x",
+                "order": 2
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "b"
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "x",
+                "order": 1
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "c"
+              },
+              {
+                "type": "dep",
+                "name": "u"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "u0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "u(0,t) = 0"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "u(1,t) = 0"
+    }
+  ]
+}

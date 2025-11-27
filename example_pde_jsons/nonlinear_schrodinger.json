@@ -1,0 +1,160 @@
+{
+  "metadata": {
+    "name": "Nonlinear Schrödinger (psi) - i psi_t + psi_xx + lambda |psi|^2 psi = 0",
+    "description": "1D cubic NLS in variables x and t for complex field psi."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "psi"
+    ]
+  },
+  "parameters": {
+    "lambda": 2.0
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "nl_schrodinger",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "fn",
+                "name": "i",
+                "args": []
+              },
+              {
+                "type": "deriv",
+                "dep": "psi",
+                "wrt": "t",
+                "order": 1
+              }
+            ]
+          },
+          {
+            "type": "deriv",
+            "dep": "psi",
+            "wrt": "x",
+            "order": 2
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "lambda"
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "dep",
+                        "name": "psi"
+                      },
+                      {
+                        "type": "fn",
+                        "name": "conj",
+                        "args": [
+                          {
+                            "type": "dep",
+                            "name": "psi"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "dep",
+                    "name": "psi"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "const",
+        "value": 0
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "psi",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "sech",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 5
+              },
+              {
+                "type": "op",
+                "op": "-",
+                "args": [
+                  {
+                    "type": "var",
+                    "name": "x"
+                  },
+                  {
+                    "type": "const",
+                    "value": 0.5
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "periodic",
+      "dep": "psi",
+      "spec": {
+        "axis": "x",
+        "domain": [
+          0.0,
+          1.0
+        ]
+      },
+      "notes": "Periodic boundary in x on [0,1]."
+    }
+  ]
+}

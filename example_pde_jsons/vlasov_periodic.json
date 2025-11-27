@@ -1,0 +1,260 @@
+{
+  "metadata": {
+    "name": "vlasov_periodic",
+    "description": "Vlasov-Poisson system with periodic in x and truncated velocity domain. f_t + v f_x + E f_v = 0; Poisson coupling dE/dx = rho - rho0."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "v",
+      "t"
+    ],
+    "dependent": [
+      "f",
+      "E",
+      "rho"
+    ]
+  },
+  "parameters": {
+    "pi": null,
+    "rho0": null
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "v": [
+      -6.0,
+      6.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "f_vlasov",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "f",
+            "wrt": "t",
+            "order": 1
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "v"
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "f",
+                    "wrt": "x",
+                    "order": 1
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "E"
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "f",
+                    "wrt": "v",
+                    "order": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "const",
+        "value": 0
+      }
+    },
+    {
+      "equation_id": "poisson_E",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "E",
+        "wrt": "x",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "dep",
+            "name": "rho"
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -1
+              },
+              {
+                "type": "dep",
+                "name": "rho0"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "f",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "const",
+            "value": 0.3989422804
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "op",
+                "op": "+",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": 1
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": 0.01
+                      },
+                      {
+                        "type": "fn",
+                        "name": "cos",
+                        "args": [
+                          {
+                            "type": "op",
+                            "op": "*",
+                            "args": [
+                              {
+                                "type": "op",
+                                "op": "*",
+                                "args": [
+                                  {
+                                    "type": "const",
+                                    "value": 2
+                                  },
+                                  {
+                                    "type": "param",
+                                    "name": "pi"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "var",
+                                "name": "x"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "E",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "periodic",
+      "dep": "f",
+      "spec": "boundary",
+      "notes": "x-periodic boundary in x-direction"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "f",
+      "spec": {
+        "v": -6.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "f -> 0 at v = -Vmax"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "f",
+      "spec": {
+        "v": 6.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "f -> 0 at v = Vmax"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "E",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "gauge: E at x=0"
+    }
+  ]
+}

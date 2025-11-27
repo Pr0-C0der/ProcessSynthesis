@@ -1,0 +1,147 @@
+{
+  "metadata": {
+    "name": "rand_pde_10",
+    "description": "1D PDE: u_t = alpha * d^2/dx^2 sin(u) + beta * cos(u_x) on x in [0,1], t >= 0, with IC u(x,0)=0.2 sin(2πx), periodic boundary in x."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "alpha": 0.03,
+    "beta": 0.1
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "u_evolution",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "alpha"
+              },
+              {
+                "type": "deriv",
+                "dep": {
+                  "type": "fn",
+                  "name": "sin",
+                  "args": [
+                    {
+                      "type": "dep",
+                      "name": "u"
+                    }
+                  ]
+                },
+                "wrt": "x",
+                "order": 2
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "beta"
+              },
+              {
+                "type": "fn",
+                "name": "cos",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "const",
+            "value": 0.2
+          },
+          {
+            "type": "fn",
+            "name": "sin",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": 6.283185307179586
+                  },
+                  {
+                    "type": "var",
+                    "name": "x"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "periodic",
+      "dep": "u",
+      "spec": {
+        "x": [
+          0.0,
+          1.0
+        ]
+      },
+      "value_expr": null,
+      "notes": "periodic boundary in x"
+    }
+  ]
+}

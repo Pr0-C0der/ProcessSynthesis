@@ -1,0 +1,148 @@
+{
+  "metadata": {
+    "name": "steady_advection_diffusion_2d",
+    "description": "Steady 2D advection-diffusion equation with constant velocity field a=(a_x,a_y) and diffusion D. Inflow boundary at x=0: u(0,y)=1+y; outflow at x=1: do-nothing (du/dx=0)."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "y"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "a_x": 1.0,
+    "a_y": 0.2,
+    "D": 0.01
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "y": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "steady_advection_diffusion",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "a_x"
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "x",
+                "order": 1
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "a_y"
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "y",
+                "order": 1
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "D"
+              },
+              {
+                "type": "op",
+                "op": "+",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 2
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "y",
+                    "order": 2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "const",
+            "value": 0.0
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "const",
+            "value": 1.0
+          },
+          {
+            "type": "var",
+            "name": "y"
+          }
+        ]
+      },
+      "notes": "inflow boundary x=0: u(0,y) = 1 + y"
+    },
+    {
+      "type": "neumann",
+      "dep": "u",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "outflow boundary x=1: du/dx = 0 (do-nothing)"
+    }
+  ]
+}

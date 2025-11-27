@@ -1,0 +1,142 @@
+{
+  "metadata": {
+    "name": "Helmholtz Time-dependent (u_tt + c^2 u = u_xx)",
+    "description": "1D Helmholtz-type equation, second-order in time, with Dirichlet boundary conditions on x in [0,1], initial displacement u(x,0)=sin(pi x) and initial velocity u_t(x,0)=0. c is a parameter."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "c": 1.0
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      2.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "helmholtz_time_dep",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "t",
+            "order": 2
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "c"
+                  },
+                  {
+                    "type": "param",
+                    "name": "c"
+                  }
+                ]
+              },
+              {
+                "type": "dep",
+                "name": "u"
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "x",
+        "order": 2
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "sin",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 3.141592653589793
+              },
+              {
+                "type": "var",
+                "name": "x"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "u_t",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "Dirichlet boundary at x=0"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "Dirichlet boundary at x=1"
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "metadata": {
+    "name": "fractional_heat_cauchy - 1D fractional diffusion",
+    "description": "1D fractional heat equation on the real line with decay at infinity. Initial condition u(x,0) = exp(-x^2/0.01)."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "D": 1.0,
+    "alpha": 1.5
+  },
+  "pdes": [
+    {
+      "equation_id": "fractional_heat_cauchy",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "const",
+            "value": -1
+          },
+          {
+            "type": "param",
+            "name": "D"
+          },
+          {
+            "type": "fn",
+            "name": "FracLaplacian",
+            "args": [
+              {
+                "type": "dep",
+                "name": "u"
+              },
+              {
+                "type": "const",
+                "value": 0.75
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "exp",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -1
+              },
+              {
+                "type": "op",
+                "op": "/",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "dep",
+                        "name": "x"
+                      },
+                      {
+                        "type": "dep",
+                        "name": "x"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "const",
+                    "value": 0.01
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "decay",
+      "dep": "u",
+      "spec": "infinity",
+      "value_expr": null,
+      "notes": "decay of u as |x| -> infinity"
+    }
+  ]
+}

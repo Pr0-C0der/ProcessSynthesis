@@ -1,0 +1,419 @@
+{
+  "metadata": {
+    "name": "1D Compressible Euler (rho,u,p,E) - 3-equation system",
+    "description": "One-dimensional compressible Euler equations in conservative form with Riemann initial data."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "rho",
+      "u",
+      "p",
+      "E"
+    ]
+  },
+  "parameters": {
+    "gamma": 1.4
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "rho_continuity",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "rho",
+            "wrt": "t",
+            "order": 1
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "rho",
+                    "wrt": "x",
+                    "order": 1
+                  },
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "rho"
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "const",
+        "value": 0
+      }
+    },
+    {
+      "equation_id": "momentum_conservation",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "rho",
+                    "wrt": "t",
+                    "order": 1
+                  },
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "rho"
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "t",
+                    "order": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "rho",
+                    "wrt": "x",
+                    "order": 1
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "dep",
+                        "name": "u"
+                      },
+                      {
+                        "type": "op",
+                        "op": "*",
+                        "args": [
+                          {
+                            "type": "dep",
+                            "name": "u"
+                          },
+                          {
+                            "type": "deriv",
+                            "dep": "u",
+                            "wrt": "x",
+                            "order": 1
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "p"
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "<none>",
+                    "wrt": "x",
+                    "order": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "const",
+        "value": 0
+      }
+    },
+    {
+      "equation_id": "energy_conservation",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "E",
+            "wrt": "t",
+            "order": 1
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 1
+                  },
+                  {
+                    "type": "op",
+                    "op": "+",
+                    "args": [
+                      {
+                        "type": "dep",
+                        "name": "E"
+                      },
+                      {
+                        "type": "dep",
+                        "name": "p"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "+",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  },
+                  {
+                    "type": "op",
+                    "op": "+",
+                    "args": [
+                      {
+                        "type": "deriv",
+                        "dep": "E",
+                        "wrt": "x",
+                        "order": 1
+                      },
+                      {
+                        "type": "deriv",
+                        "dep": "p",
+                        "wrt": "x",
+                        "order": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "const",
+        "value": 0
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "rho",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "rho0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "u0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "p",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "p0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "E",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "E0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "outflow",
+      "dep": "rho",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": null
+    },
+    {
+      "type": "outflow",
+      "dep": "u",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": null
+    },
+    {
+      "type": "outflow",
+      "dep": "p",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": null
+    },
+    {
+      "type": "outflow",
+      "dep": "E",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": null
+    },
+    {
+      "type": "outflow",
+      "dep": "rho",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": null
+    },
+    {
+      "type": "outflow",
+      "dep": "u",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": null
+    },
+    {
+      "type": "outflow",
+      "dep": "p",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": null
+    },
+    {
+      "type": "outflow",
+      "dep": "E",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": null
+    }
+  ]
+}

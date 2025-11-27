@@ -1,0 +1,122 @@
+{
+  "metadata": {
+    "name": "liouville_equation",
+    "description": "Liouville equation u_xt = exp(u) in 1D spatial variable x and time t, with periodic boundary in x on [0,1], ICs u(x,0) and u_t(x,0)."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {},
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "liouville_equation",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "u_x",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "fn",
+        "name": "exp",
+        "args": [
+          {
+            "type": "dep",
+            "name": "u"
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "ln",
+        "args": [
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "const",
+                "value": 1.0
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": 0.1
+                  },
+                  {
+                    "type": "fn",
+                    "name": "sin",
+                    "args": [
+                      {
+                        "type": "op",
+                        "op": "*",
+                        "args": [
+                          {
+                            "type": "const",
+                            "value": 6.283185307179586
+                          },
+                          {
+                            "type": "var",
+                            "name": "x"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "u_t",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "periodic",
+      "dep": "u",
+      "spec": "spatial",
+      "notes": "periodic boundary in x on [0,1]"
+    }
+  ]
+}

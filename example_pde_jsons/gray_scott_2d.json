@@ -1,0 +1,367 @@
+{
+  "metadata": {
+    "name": "gray_scott_2d - Gray-Scott reaction-diffusion (u,v) in 2D",
+    "description": "2D Gray-Scott model: u_t = D_u(u_xx+u_yy) - u v^2 + F(1-u); v_t = D_v(v_xx+v_yy) + u v^2 - (F+k) v, with ICs and periodic BCs on [0,1]^2."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "y",
+      "t"
+    ],
+    "dependent": [
+      "u",
+      "v"
+    ]
+  },
+  "parameters": {
+    "D_u": 2e-05,
+    "D_v": 1e-05,
+    "F": 0.04,
+    "k": 0.06
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "y": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "u_pde",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "D_u"
+              },
+              {
+                "type": "op",
+                "op": "+",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 2
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "y",
+                    "order": 2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "dep",
+                        "name": "v"
+                      },
+                      {
+                        "type": "dep",
+                        "name": "v"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "equation_id": "v_pde",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "v",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "D_v"
+              },
+              {
+                "type": "op",
+                "op": "+",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "v",
+                    "wrt": "x",
+                    "order": 2
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "v",
+                    "wrt": "y",
+                    "order": 2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "dep",
+                        "name": "v"
+                      },
+                      {
+                        "type": "dep",
+                        "name": "v"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "F"
+                  },
+                  {
+                    "type": "op",
+                    "op": "+",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": 1
+                      },
+                      {
+                        "type": "op",
+                        "op": "*",
+                        "args": [
+                          {
+                            "type": "const",
+                            "value": -1
+                          },
+                          {
+                            "type": "dep",
+                            "name": "v"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "const",
+            "value": 1
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -0.05
+              },
+              {
+                "type": "fn",
+                "name": "exp",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "op",
+                        "op": "+",
+                        "args": [
+                          {
+                            "type": "var",
+                            "name": "x"
+                          },
+                          {
+                            "type": "const",
+                            "value": -0.5
+                          }
+                        ]
+                      },
+                      {
+                        "type": "op",
+                        "op": "+",
+                        "args": [
+                          {
+                            "type": "var",
+                            "name": "y"
+                          },
+                          {
+                            "type": "const",
+                            "value": -0.5
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "v",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "const",
+            "value": 0.05
+          },
+          {
+            "type": "fn",
+            "name": "exp",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "+",
+                    "args": [
+                      {
+                        "type": "var",
+                        "name": "x"
+                      },
+                      {
+                        "type": "const",
+                        "value": -0.5
+                      }
+                    ]
+                  },
+                  {
+                    "type": "op",
+                    "op": "+",
+                    "args": [
+                      {
+                        "type": "var",
+                        "name": "y"
+                      },
+                      {
+                        "type": "const",
+                        "value": -0.5
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "periodic",
+      "dep": "u",
+      "spec": "domain",
+      "notes": "periodic in x and y on [0,1]"
+    },
+    {
+      "type": "periodic",
+      "dep": "v",
+      "spec": "domain",
+      "notes": "periodic in x and y on [0,1]"
+    }
+  ]
+}

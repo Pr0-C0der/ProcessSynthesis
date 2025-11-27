@@ -1,0 +1,183 @@
+{
+  "metadata": {
+    "name": "Schrodinger_1d - 1D Schrödinger equation with ICs/BCs",
+    "description": "1D Schrödinger equation i*hbar*psi_t = -(hbar^2/(2m)) psi_xx + V(x) psi, with Gaussian initial condition on x in [0,1] and Dirichlet BCs at x=0 and x=1."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "psi"
+    ]
+  },
+  "parameters": {
+    "hbar": 1.0,
+    "m": 1.0,
+    "i": null
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "schrodinger_1d",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "param",
+            "name": "i"
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "hbar"
+              },
+              {
+                "type": "deriv",
+                "dep": "psi",
+                "wrt": "t",
+                "order": 1
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -0.5
+              },
+              {
+                "type": "deriv",
+                "dep": "psi",
+                "wrt": "x",
+                "order": 2
+              }
+            ]
+          },
+          {
+            "type": "const",
+            "value": 0.0
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "psi",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "const",
+            "value": 0.89298
+          },
+          {
+            "type": "fn",
+            "name": "exp",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": -1
+                  },
+                  {
+                    "type": "op",
+                    "op": "/",
+                    "args": [
+                      {
+                        "type": "op",
+                        "op": "^",
+                        "args": [
+                          {
+                            "type": "op",
+                            "op": "-",
+                            "args": [
+                              {
+                                "type": "var",
+                                "name": "x"
+                              },
+                              {
+                                "type": "const",
+                                "value": 0.5
+                              }
+                            ]
+                          },
+                          {
+                            "type": "const",
+                            "value": 2
+                          }
+                        ]
+                      },
+                      {
+                        "type": "const",
+                        "value": 0.02
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "psi",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "psi = 0 at x = 0"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "psi",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "psi = 0 at x = 1"
+    }
+  ]
+}

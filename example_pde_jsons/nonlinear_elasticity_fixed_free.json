@@ -1,0 +1,162 @@
+{
+  "metadata": {
+    "name": "nonlinear_elasticity_fixed_free",
+    "description": "1D nonlinear elasticity: rho * u_tt = (sigma(u_x))_x with sigma(s) = s + 0.05*s^3; ICs: u(x,0)=0 and u_t(x,0)=0.1*sin(pi*x); BCs: u(0,t)=0 and sigma(u_x)(1,t)=0."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "rho": 1.0
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "u_nonlinear_elasticity",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "param",
+            "name": "rho"
+          },
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "t",
+            "order": 2
+          }
+        ]
+      },
+      "rhs": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "const",
+                "value": 1
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": 0.15
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "deriv",
+                        "dep": "u",
+                        "wrt": "x",
+                        "order": 1
+                      },
+                      {
+                        "type": "deriv",
+                        "dep": "u",
+                        "wrt": "x",
+                        "order": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "x",
+            "order": 2
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "u0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "u_t",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "ut0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "fixed boundary: u(0,t)=0"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "sigma_u_x",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "stress-free boundary: sigma(u_x)=0 at x=1"
+    }
+  ]
+}

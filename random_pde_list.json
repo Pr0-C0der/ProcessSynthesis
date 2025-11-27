@@ -1,0 +1,676 @@
+[
+    {
+        "name": "rand_pde_01",
+        "equation": "u_t = a * u_{xx} + b * (u_x)^3 - c * sin(u)",
+        "initial_condition": "u(x,0) = 0.5 + 0.25sin(2pix)",
+        "boundary_conditions": [
+            "u(0,t)=0.5",
+            "u(1,t)=0.5"
+        ],
+        "parameters": {
+            "a": 0.02,
+            "b": 0.1,
+            "c": 0.5
+        }
+    },
+    {
+        "name": "rand_pde_02",
+        "equation": "u_t = alpha * (u^p)_{xx} - beta * u_x * u + gamma",
+        "initial_condition": "u(x,0) = exp(-50(x-0.3)^2)",
+        "boundary_conditions": [
+            "u_x(0,t)=0",
+            "u_x(1,t)=0"
+        ],
+        "parameters": {
+            "alpha": 0.05,
+            "beta": 1.0,
+            "gamma": 0.01,
+            "p": 2
+        }
+    },
+    {
+        "name": "rand_pde_03",
+        "equation": "w_t = k1 * w_{xx} + k2 * v_x - k3 * w^2",
+        "initial_condition": "w(x,0) = 0.2 * cos(pix)",
+        "boundary_conditions": [
+            "w(0,t)=0",
+            "w(1,t)=0"
+        ],
+        "parameters": {
+            "k1": 0.01,
+            "k2": 0.5,
+            "k3": 2.0
+        }
+    },
+    {
+        "name": "rand_pde_04",
+        "equation": "u_t + a * u_x = b * (u_{xx} * u - (u_x)^2)",
+        "initial_condition": "u(x,0) = 1 + 0.1sin(4pix)",
+        "boundary_conditions": [
+            "periodic on [0,1]"
+        ],
+        "parameters": {
+            "a": 0.8,
+            "b": 0.05
+        }
+    },
+    {
+        "name": "rand_pde_05",
+        "equation": "phi_t = d1 * phi_{xx} - d2 * log(1 + phi) + s(x,t)",
+        "initial_condition": "phi(x,0) = 0.1*(1 + cos(2pix))",
+        "boundary_conditions": [
+            "phi_x(0,t)=0",
+            "phi_x(1,t)=0"
+        ],
+        "parameters": {
+            "d1": 0.02,
+            "d2": 0.3,
+            "s(x,t)": "0.01sin(2pit)"
+        }
+    },
+    {
+        "name": "rand_pde_06",
+        "equation": "u_t = A(x) * u_{xx} + B * u_x * cos(u)",
+        "initial_condition": "u(x,0) = 0.5exp(-100*(x-0.6)^2)",
+        "boundary_conditions": [
+            "u(0,t)=0",
+            "u(1,t)=0"
+        ],
+        "parameters": {
+            "A(x)": "0.01*(1+x)",
+            "B": 0.7
+        }
+    },
+    {
+        "name": "rand_pde_07",
+        "equation": "u_t = p * u_{xxxx} - q * u_{xx} + r * u",
+        "initial_condition": "u(x,0) = 0.05cos(6pix)",
+        "boundary_conditions": [
+            "u(0,t)=0",
+            "u_x(0,t)=0",
+            "u(1,t)=0",
+            "u_x(1,t)=0"
+        ],
+        "parameters": {
+            "p": 1e-4,
+            "q": 0.01,
+            "r": -0.1
+        }
+    },
+    {
+        "name": "rand_pde_08",
+        "equation": "u_t = s * (u_x/u + u_{xx}) - t * tanh(u)",
+        "initial_condition": "u(x,0) = 1 + 0.2sin(pix)",
+        "boundary_conditions": [
+            "u_x(0,t)=0",
+            "u_x(1,t)=0"
+        ],
+        "parameters": {
+            "s": 0.02,
+            "t": 0.4
+        }
+    },
+    {
+        "name": "rand_pde_09",
+        "equation": "u_t = a * (u_{xx} + u_{yy}) + b * u_x * u_y - c * u^3",
+        "initial_condition": "u(x,y,0) = 0.5exp(-200*((x-0.4)^2+(y-0.6)^2))",
+        "boundary_conditions": [
+            "Dirichlet u=0 on boundary of [0,1]^2"
+        ],
+        "parameters": {
+            "a": 0.01,
+            "b": 0.2,
+            "c": 1.0
+        }
+    },
+    {
+        "name": "rand_pde_10",
+        "equation": "u_t = alpha * (sin(u)){xx} + beta * cos(u_x)",
+        "initial_condition": "u(x,0) = 0.2sin(2pi*x)",
+        "boundary_conditions": [
+            "periodic on [0,1]"
+        ],
+        "parameters": {
+            "alpha": 0.03,
+            "beta": 0.1
+        }
+    },
+    {
+        "name": "rand_pde_11",
+        "equation": "u_t = a1 * (u_x)^2 + a2 * u{xx} + a3 * exp(-u)",
+        "initial_condition": "u(x,0) = 0.3 + 0.05cos(3pix)",
+        "boundary_conditions": [
+            "u(0,t)=0.3",
+            "u(1,t)=0.3"
+        ],
+        "parameters": {
+            "a1": 0.5,
+            "a2": 0.02,
+            "a3": 0.1
+        }
+    },
+    {
+        "name": "rand_pde_12",
+        "equation": "u_t = k * (u_{x} u_{xx}) - m * u_{xxx}",
+        "initial_condition": "u(x,0) = 0.1sech(10*(x-0.5))",
+        "boundary_conditions": [
+            "periodic on [0,1]"
+        ],
+        "parameters": {
+            "k": 0.4,
+            "m": 0.01
+        }
+    },
+    {
+        "name": "rand_pde_13",
+        "equation": "u_t = p * u_{xx} + q * (u - u^2) + r(x)",
+        "initial_condition": "u(x,0)=0.2rand(x)",
+        "boundary_conditions": [
+            "u_x(0,t)=0",
+            "u_x(1,t)=0"
+        ],
+        "parameters": {
+            "p": 0.02,
+            "q": 1.2,
+            "r(x)": "0.01cos(2pix)"
+        }
+    },
+    {
+        "name": "rand_pde_14",
+        "equation": "u_t + b * u * u_x = c * u_{xx} + d * u_xx^2",
+        "initial_condition": "u(x,0)=1 + 0.1sin(2pix)",
+        "boundary_conditions": [
+            "u(0,t)=1",
+            "u(1,t)=1"
+        ],
+        "parameters": {
+            "b": 0.9,
+            "c": 0.02,
+            "d": 0.001
+        }
+    },
+    {
+        "name": "rand_pde_15",
+        "equation": "u_t = A * u_{xx} + B * (u_x)^0.5 - C * u",
+        "initial_condition": "u(x,0)=0.8exp(-100*(x-0.5)^2)",
+        "boundary_conditions": [
+            "u_x(0,t)=0",
+            "u_x(1,t)=0"
+        ],
+        "parameters": {
+            "A": 0.01,
+            "B": 0.2,
+            "C": 0.05
+        }
+    },
+    {
+        "name": "rand_pde_16",
+        "equation": "u_t = alpha * (u_{xx} + u_{yy} + u_{zz}) + beta * (u_x u_y u_z)",
+        "initial_condition": "u(x,y,z,0) = 0.5exp(-100((x-0.5)^2+(y-0.5)^2+(z-0.5)^2))",
+        "boundary_conditions": [
+            "Dirichlet u=0 on boundary of unit cube"
+        ],
+        "parameters": {
+            "alpha": 0.005,
+            "beta": 0.05
+        }
+    },
+    {
+        "name": "rand_pde_17",
+        "equation": "u_t = p(x) * u_{xx} - q * (u_x)^3 + s * u",
+        "initial_condition": "u(x,0)=0.2 + 0.1sin(pix)",
+        "boundary_conditions": [
+            "u(0,t)=0.2",
+            "u(1,t)=0.2"
+        ],
+        "parameters": {
+            "p(x)": "0.01*(1+x)",
+            "q": 0.2,
+            "s": -0.05
+        }
+    },
+    {
+        "name": "rand_pde_18",
+        "equation": "u_t = a * (u_{x} + u_{xx})/(1 + b * |u|) - c * u^2",
+        "initial_condition": "u(x,0)=0.3exp(-50(x-0.7)^2)",
+        "boundary_conditions": [
+            "u_x(0,t)=0",
+            "u_x(1,t)=0"
+        ],
+        "parameters": {
+            "a": 0.03,
+            "b": 0.5,
+            "c": 0.8
+        }
+    },
+    {
+        "name": "rand_pde_19",
+        "equation": "u_t = alpha * (u_xx^2) - beta * (u_x)^2 + gamma * sin(x)",
+        "initial_condition": "u(x,0)=0.05cos(2pix)",
+        "boundary_conditions": [
+            "periodic on [0,1]"
+        ],
+        "parameters": {
+            "alpha": 1e-3,
+            "beta": 0.2,
+            "gamma": 0.01
+        }
+    },
+    {
+        "name": "rand_pde_20",
+        "equation": "u_t = a * u_{xx} + b * (u_x/u + u_{xx}) + c",
+        "initial_condition": "u(x,0)=1 + 0.1sin(2pix)",
+        "boundary_conditions": [
+            "u(0,t)=1",
+            "u(1,t)=1"
+        ],
+        "parameters": {
+            "a": 0.02,
+            "b": 0.01,
+            "c": 0.0
+        }
+    },
+    {
+        "name": "rand_pde_21",
+        "equation": "u_t = a(x) * u_{xx} + b(x) * u_x + c(x) * u",
+        "initial_condition": "u(x,0) = sin(pix)",
+        "boundary_conditions": [
+            "u(0,t)=0",
+            "u(1,t)=0"
+        ],
+        "parameters": {
+            "a(x)": "0.01(1+x)",
+            "b(x)": "0.1x",
+            "c(x)": "-0.05"
+        }
+    },
+    {
+        "name": "rand_pde_22",
+        "equation": "u_t = A * (u_{xx} - u_{yy}) + B * u_x * u_{y} - C * u",
+        "initial_condition": "u(x,y,0)=0.2cos(2pix)cos(2piy)",
+        "boundary_conditions": [
+            "Dirichlet u=0 on boundary of [0,1]^2"
+        ],
+        "parameters": {
+            "A": 0.01,
+            "B": 0.3,
+            "C": 0.1
+        }
+    },
+    {
+        "name": "rand_pde_23",
+        "equation": "u_t = a * (u_{xx} + u^2) - b * ln(1 + u^2)",
+        "initial_condition": "u(x,0)=0.1 + 0.01rand(x)",
+        "boundary_conditions": [
+            "u_x(0,t)=0",
+            "u_x(1,t)=0"
+        ],
+        "parameters": {
+            "a": 0.02,
+            "b": 0.05
+        }
+    },
+    {
+        "name": "rand_pde_24",
+        "equation": "u_t = p * (u_x)^2 + q * u_{xx} - r * u_xx * u",
+        "initial_condition": "u(x,0)=0.2sin(pix)",
+        "boundary_conditions": [
+            "periodic on [0,1]"
+        ],
+        "parameters": {
+            "p": 0.3,
+            "q": 0.02,
+            "r": 0.1
+        }
+    },
+    {
+        "name": "rand_pde_25",
+        "equation": "u_t = a * sqrt(|u_x|) + b * u_{xx} + c * u^4",
+        "initial_condition": "u(x,0)=0.5exp(-80(x-0.5)^2)",
+        "boundary_conditions": [
+            "u_x(0,t)=0",
+            "u_x(1,t)=0"
+        ],
+        "parameters": {
+            "a": 0.1,
+            "b": 0.01,
+            "c": 0.05
+        }
+    },
+    {
+        "name": "rand_pde_26",
+        "equation": "u_t = alpha * (u_{xxy} + u_{yyx}) + beta * u_x * u_{xy} - gamma * u",
+        "initial_condition": "u(x,y,0)=0.1exp(-200((x-0.4)^2+(y-0.6)^2))",
+        "boundary_conditions": [
+            "Dirichlet u=0 on boundary of [0,1]^2"
+        ],
+        "parameters": {
+            "alpha": 1e-3,
+            "beta": 0.2,
+            "gamma": 0.05
+        }
+    },
+    {
+        "name": "rand_pde_27",
+        "equation": "u_t = a * (u_{xx} + u_{yy}) + b * (u_x^2 + u_y^2) + c * u",
+        "initial_condition": "u(x,y,0)=0.3*(1 + 0.1cos(2pix)cos(2piy))",
+        "boundary_conditions": [
+            "Neumann: du/dn=0 on boundary"
+        ],
+        "parameters": {
+            "a": 0.01,
+            "b": 0.2,
+            "c": -0.1
+        }
+    },
+    {
+        "name": "rand_pde_28",
+        "equation": "u_t = A * (u_{xx})^1.5 - B * u * u_x + C * sin(pix)",
+        "initial_condition": "u(x,0)=0.05cos(2pix)",
+        "boundary_conditions": [
+            "periodic on [0,1]"
+        ],
+        "parameters": {
+            "A": 1e-4,
+            "B": 0.6,
+            "C": 0.02
+        }
+    },
+    {
+        "name": "rand_pde_29",
+        "equation": "u_t = a * u_{xx} + b * u_{xxxxx} - c * (u_x)^2",
+        "initial_condition": "u(x,0)=0.02exp(-50(x-0.5)^2)",
+        "boundary_conditions": [
+            "periodic on [0,1]"
+        ],
+        "parameters": {
+            "a": 0.01,
+            "b": 1e-6,
+            "c": 0.3
+        }
+    },
+    {
+        "name": "rand_pde_30",
+        "equation": "u_t = p * (u_{xx} + kappau^2) + q * tanh(u_x)",
+        "initial_condition": "u(x,0)=0.1sin(2pix)",
+        "boundary_conditions": [
+            "u(0,t)=0.1",
+            "u(1,t)=0.1"
+        ],
+        "parameters": {
+            "p": 0.02,
+            "kappa": 0.5,
+            "q": 0.05
+        }
+    },
+    {
+        "name": "rand_pde_31",
+        "equation": "u_t = a * (u_{xx} + u_{yy} + u_{zz}) + b * exp(-u_x^2)",
+        "initial_condition": "u(x,y,z,0)=0.1exp(-100((x-0.5)^2+(y-0.5)^2+(z-0.5)^2))",
+        "boundary_conditions": [
+            "Dirichlet u=0 on outer faces"
+        ],
+        "parameters": {
+            "a": 0.005,
+            "b": 0.2
+        }
+    },
+    {
+        "name": "rand_pde_32",
+        "equation": "u_t = A * (u_x u_{xx}) + B * (u_{yy}) - C * u^2 + S(x)",
+        "initial_condition": "u(x,y,0)=0.2rand(x,y)",
+        "boundary_conditions": [
+            "Neumann du/dn=0 on domain boundary"
+        ],
+        "parameters": {
+            "A": 0.1,
+            "B": 0.02,
+            "C": 0.5,
+            "S(x)": "0.01sin(2pix)"
+        }
+    },
+    {
+        "name": "rand_pde_33",
+        "equation": "u_t = a * u_{xx} + b * (1 - u) * u_x - c * u",
+        "initial_condition": "u(x,0)=0.6 + 0.1sin(pix)",
+        "boundary_conditions": [
+            "Dirichlet u(0,t)=0.6",
+            "u(1,t)=0.6"
+        ],
+        "parameters": {
+            "a": 0.02,
+            "b": 0.4,
+            "c": 0.05
+        }
+    },
+    {
+        "name": "rand_pde_34",
+        "equation": "u_t = p * (u_x/u)^2 + q * u_{xx} - r * cos(u)",
+        "initial_condition": "u(x,0)=1 + 0.05cos(2pix)",
+        "boundary_conditions": [
+            "u_x(0,t)=0",
+            "u_x(1,t)=0"
+        ],
+        "parameters": {
+            "p": 0.1,
+            "q": 0.02,
+            "r": 0.3
+        }
+    },
+    {
+        "name": "rand_pde_35",
+        "equation": "u_t = a * (u_{xx}) + b * (u_{x})/(1 + cu) + d",
+        "initial_condition": "u(x,0)=0.4exp(-80(x-0.5)^2)",
+        "boundary_conditions": [
+            "u(0,t)=0.4",
+            "u(1,t)=0.4"
+        ],
+        "parameters": {
+            "a": 0.02,
+            "b": 0.05,
+            "c": 0.2,
+            "d": 0.0
+        }
+    },
+    {
+        "name": "rand_pde_36",
+        "equation": "u_t = alpha * (u_{xx} u - (u_x)^2) + beta * u_x + gamma",
+        "initial_condition": "u(x,0)=0.05 + 0.02rand(x)",
+        "boundary_conditions": [
+            "periodic on [0,1]"
+        ],
+        "parameters": {
+            "alpha": 0.1,
+            "beta": 0.02,
+            "gamma": 0.001
+        }
+    },
+    {
+        "name": "rand_pde_37",
+        "equation": "u_t = k1 * (u_{xx} + u_{yy}) + k2 * (u_{xxx}) - k3 * u^5",
+        "initial_condition": "u(x,y,0)=0.1cos(2pix)cos(2piy)",
+        "boundary_conditions": [
+            "Dirichlet u=0 on boundary"
+        ],
+        "parameters": {
+            "k1": 0.01,
+            "k2": 1e-5,
+            "k3": 0.01
+        }
+    },
+    {
+        "name": "rand_pde_38",
+        "equation": "u_t = a * (u_x)^3 + b * u_{xx} + c * (1 + sin(x))u",
+        "initial_condition": "u(x,0)=0.2exp(-60(x-0.2)^2)",
+        "boundary_conditions": [
+            "u_x(0,t)=0",
+            "u_x(1,t)=0"
+        ],
+        "parameters": {
+            "a": 0.2,
+            "b": 0.02,
+            "c": -0.05
+        }
+    },
+    {
+        "name": "rand_pde_39",
+        "equation": "u_t = A * (u_{xyy} + u_{yxx}) - B * u_x * u_y + C",
+        "initial_condition": "u(x,y,0)=0.05rand(x,y)",
+        "boundary_conditions": [
+            "Neumann du/dn=0 on boundary"
+        ],
+        "parameters": {
+            "A": 5e-4,
+            "B": 0.2,
+            "C": 0.01
+        }
+    },
+    {
+        "name": "rand_pde_40",
+        "equation": "u_t = p * (u_{xx}) + q * (u_x)^1.2 - r * log(1 + u^2)",
+        "initial_condition": "u(x,0)=0.3 + 0.05sin(pix)",
+        "boundary_conditions": [
+            "u(0,t)=0.3",
+            "u(1,t)=0.3"
+        ],
+        "parameters": {
+            "p": 0.02,
+            "q": 0.15,
+            "r": 0.02
+        }
+    },
+    {
+        "name": "rand_pde_41",
+        "equation": "u_t = a * (u_{xx} + 2 u_{xy} + u_{yy}) + b * u_x * cos(u_y)",
+        "initial_condition": "u(x,y,0)=0.2exp(-200*((x-0.3)^2+(y-0.7)^2))",
+        "boundary_conditions": [
+            "Dirichlet u=0 on boundary"
+        ],
+        "parameters": {
+            "a": 0.01,
+            "b": 0.1
+        }
+    },
+    {
+        "name": "rand_pde_42",
+        "equation": "u_t = alpha * (u^2){xx} - beta * sqrt(1 + (u_x)^2)",
+        "initial_condition": "u(x,0)=0.2sin(2pi*x)",
+        "boundary_conditions": [
+            "periodic on [0,1]"
+        ],
+        "parameters": {
+            "alpha": 0.03,
+            "beta": 0.05
+        }
+    },
+    {
+        "name": "rand_pde_43",
+        "equation": "u_t = a * u{xx} + b * (u_x u_{xx}) + c * u_x",
+        "initial_condition": "u(x,0)=0.1 + 0.01rand(x)",
+        "boundary_conditions": [
+            "u_x(0,t)=0",
+            "u_x(1,t)=0"
+        ],
+        "parameters": {
+            "a": 0.02,
+            "b": 0.2,
+            "c": 0.01
+        }
+    },
+    {
+        "name": "rand_pde_44",
+        "equation": "u_t = p * (u_{xx}) - q * u * exp(u) + r * sin(pix)",
+        "initial_condition": "u(x,0)=0.05cos(2pix)",
+        "boundary_conditions": [
+            "periodic on [0,1]"
+        ],
+        "parameters": {
+            "p": 0.02,
+            "q": 0.1,
+            "r": 0.01
+        }
+    },
+    {
+        "name": "rand_pde_45",
+        "equation": "u_t = a * (u_{xx} + u_{yy}) + b * (u_x/u_y + u_y/u_x) - c * u",
+        "initial_condition": "u(x,y,0)=0.3(1 + 0.05rand(x,y))",
+        "boundary_conditions": [
+            "Neumann du/dn=0 on boundary"
+        ],
+        "parameters": {
+            "a": 0.01,
+            "b": 0.02,
+            "c": 0.05
+        }
+    },
+    {
+        "name": "rand_pde_46",
+        "equation": "u_t = A * u_{xxxx} + B * (u_x)^2/(1 + Cu) - D * u",
+        "initial_condition": "u(x,0)=0.02cos(4pix)",
+        "boundary_conditions": [
+            "u(0,t)=0",
+            "u_x(0,t)=0",
+            "u(1,t)=0",
+            "u_x(1,t)=0"
+        ],
+        "parameters": {
+            "A": 5e-5,
+            "B": 0.1,
+            "C": 0.2,
+            "D": 0.01
+        }
+    },
+    {
+        "name": "rand_pde_47",
+        "equation": "u_t = a * (u_{xx} + u_{yy}) + b * (u_x + u_y) * u - c * u^3",
+        "initial_condition": "u(x,y,0)=0.1exp(-150*((x-0.5)^2+(y-0.5)^2))",
+        "boundary_conditions": [
+            "Dirichlet u=0 on boundary"
+        ],
+        "parameters": {
+            "a": 0.01,
+            "b": 0.2,
+            "c": 0.5
+        }
+    },
+    {
+        "name": "rand_pde_48",
+        "equation": "u_t = p * (1 + u) * u_{xx} - q * (u_x)^3 + s(x,t)",
+        "initial_condition": "u(x,0)=0.05 + 0.02sin(2pix)",
+        "boundary_conditions": [
+            "u_x(0,t)=0",
+            "u_x(1,t)=0"
+        ],
+        "parameters": {
+            "p": 0.02,
+            "q": 0.2,
+            "s(x,t)": "0.005cos(2pit)"
+        }
+    },
+    {
+        "name": "rand_pde_49",
+        "equation": "u_t = a * u_{xx} + b * u_{xy} - c * tanh(u)",
+        "initial_condition": "u(x,y,0)=0.05rand(x,y)",
+        "boundary_conditions": [
+            "Neumann du/dn=0 on boundary"
+        ],
+        "parameters": {
+            "a": 0.01,
+            "b": 0.005,
+            "c": 0.2
+        }
+    },
+    {
+        "name": "rand_pde_50",
+        "equation": "u_t = alpha * (u_{xx} + u_{yy}) + beta * (exp(-u) - 1) + gamma * u_x",
+        "initial_condition": "u(x,y,0)=0.2 + 0.02cos(2pix)cos(2pi*y)",
+        "boundary_conditions": [
+            "periodic on [0,1]^2"
+        ],
+        "parameters": {
+            "alpha": 0.01,
+            "beta": 0.05,
+            "gamma": 0.01
+        }
+    }
+]

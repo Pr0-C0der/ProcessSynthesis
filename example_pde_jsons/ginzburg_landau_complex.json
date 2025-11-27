@@ -1,0 +1,338 @@
+{
+  "metadata": {
+    "name": "ginzburg_landau_complex",
+    "description": "Two real-valued PDEs for the real and imaginary parts of a complex amplitude A under the complex Ginzburg–Landau equation with periodic boundary in x. Initial condition corresponds to A(x,0) = 0.1 e^{i 2 pi x}."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "A_re",
+      "A_im"
+    ]
+  },
+  "parameters": {
+    "mu": 0.1,
+    "beta": 0.5
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "A_re_t",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "A_re",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "mu"
+              },
+              {
+                "type": "dep",
+                "name": "A_re"
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "deriv",
+                "dep": "A_re",
+                "wrt": "x",
+                "order": 2
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": -1
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "param",
+                        "name": "beta"
+                      },
+                      {
+                        "type": "deriv",
+                        "dep": "A_im",
+                        "wrt": "x",
+                        "order": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "equation_id": "A_im_t",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "A_im",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "mu"
+              },
+              {
+                "type": "dep",
+                "name": "A_im"
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "+",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "A_im",
+                    "wrt": "x",
+                    "order": 2
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "param",
+                        "name": "beta"
+                      },
+                      {
+                        "type": "deriv",
+                        "dep": "A_re",
+                        "wrt": "x",
+                        "order": 2
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "+",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": -1
+                      },
+                      {
+                        "type": "op",
+                        "op": "+",
+                        "args": [
+                          {
+                            "type": "op",
+                            "op": "+",
+                            "args": [
+                              {
+                                "type": "op",
+                                "op": "*",
+                                "args": [
+                                  {
+                                    "type": "dep",
+                                    "name": "A_re"
+                                  },
+                                  {
+                                    "type": "dep",
+                                    "name": "A_re"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "op",
+                                "op": "*",
+                                "args": [
+                                  {
+                                    "type": "dep",
+                                    "name": "A_im"
+                                  },
+                                  {
+                                    "type": "dep",
+                                    "name": "A_im"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "op",
+                            "op": "*",
+                            "args": [
+                              {
+                                "type": "param",
+                                "name": "beta"
+                              },
+                              {
+                                "type": "op",
+                                "op": "*",
+                                "args": [
+                                  {
+                                    "type": "op",
+                                    "op": "+",
+                                    "args": [
+                                      {
+                                        "type": "op",
+                                        "op": "*",
+                                        "args": [
+                                          {
+                                            "type": "dep",
+                                            "name": "A_re"
+                                          },
+                                          {
+                                            "type": "dep",
+                                            "name": "A_re"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "op",
+                                        "op": "*",
+                                        "args": [
+                                          {
+                                            "type": "dep",
+                                            "name": "A_im"
+                                          },
+                                          {
+                                            "type": "dep",
+                                            "name": "A_im"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "dep",
+                                    "name": "A_re"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "A_re",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "A_re0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "A_im",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "A_im0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "periodic",
+      "dep": "A_re",
+      "spec": {
+        "axis": "x",
+        "domain": [
+          0.0,
+          1.0
+        ]
+      },
+      "value_expr": null,
+      "notes": "periodic boundary in x"
+    },
+    {
+      "type": "periodic",
+      "dep": "A_im",
+      "spec": {
+        "axis": "x",
+        "domain": [
+          0.0,
+          1.0
+        ]
+      },
+      "value_expr": null,
+      "notes": "periodic boundary in x"
+    }
+  ]
+}

@@ -1,0 +1,221 @@
+{
+  "metadata": {
+    "name": "rand_pde_18",
+    "description": "Scalar PDE in 1D: u_t = a*(u_x + u_xx)/(1 + b*|u|) - c*u^2 with Neumann boundaries at x=0 and x=1, initial profile u(x,0)=0.3*exp(-50*(x-0.7)^2)."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "a": 0.03,
+    "b": 0.5,
+    "c": 0.8
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "rand_pde_18",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "-",
+        "args": [
+          {
+            "type": "op",
+            "op": "/",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "a"
+                  },
+                  {
+                    "type": "op",
+                    "op": "+",
+                    "args": [
+                      {
+                        "type": "deriv",
+                        "dep": "u",
+                        "wrt": "x",
+                        "order": 1
+                      },
+                      {
+                        "type": "deriv",
+                        "dep": "u",
+                        "wrt": "x",
+                        "order": 2
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "+",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": 1
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "param",
+                        "name": "b"
+                      },
+                      {
+                        "type": "fn",
+                        "name": "abs",
+                        "args": [
+                          {
+                            "type": "dep",
+                            "name": "u"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "c"
+              },
+              {
+                "type": "fn",
+                "name": "pow",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  },
+                  {
+                    "type": "const",
+                    "value": 2
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "const",
+            "value": 0.3
+          },
+          {
+            "type": "fn",
+            "name": "exp",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": -50
+                  },
+                  {
+                    "type": "fn",
+                    "name": "pow",
+                    "args": [
+                      {
+                        "type": "op",
+                        "op": "-",
+                        "args": [
+                          {
+                            "type": "var",
+                            "name": "x"
+                          },
+                          {
+                            "type": "const",
+                            "value": 0.7
+                          }
+                        ]
+                      },
+                      {
+                        "type": "const",
+                        "value": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "neumann",
+      "dep": "u",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "du/dx = 0 at x=0"
+    },
+    {
+      "type": "neumann",
+      "dep": "u",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "du/dx = 0 at x=1"
+    }
+  ]
+}

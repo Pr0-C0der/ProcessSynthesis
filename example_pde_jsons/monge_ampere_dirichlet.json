@@ -1,0 +1,107 @@
+{
+  "metadata": {
+    "name": "monge_ampere_dirichlet",
+    "description": "Monge-Ampère equation det(D^2 u) = f on (x,y) in [0,1]^2 with Dirichlet boundary condition u = (x^2+y^2)/2 on boundary; f(x,y)=1."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "y"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "f": {
+      "type": "const",
+      "value": 1
+    }
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "y": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "monge_ampere_dirichlet",
+      "type": "equals",
+      "lhs": {
+        "type": "fn",
+        "name": "det_Hess_u",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          },
+          {
+            "type": "var",
+            "name": "y"
+          }
+        ]
+      },
+      "rhs": {
+        "type": "param",
+        "name": "f"
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": "boundary",
+      "value_expr": {
+        "type": "op",
+        "op": "/",
+        "args": [
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "var",
+                    "name": "x"
+                  },
+                  {
+                    "type": "var",
+                    "name": "x"
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "var",
+                    "name": "y"
+                  },
+                  {
+                    "type": "var",
+                    "name": "y"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "const",
+            "value": 2
+          }
+        ]
+      },
+      "notes": "Dirichlet boundary: u = (x^2+y^2)/2 on the boundary of [0,1]^2"
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "metadata": {
+    "name": "helmholtz_2d",
+    "description": "2D Helmholtz equation u_xx + u_yy + k^2 u = 0 with Dirichlet boundary on y=0 (u(x,0)=sin(pi x)) and absorbing outer boundary (approx.)."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "y"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "k": 5.0
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "y": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "helmholtz_2d",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "x",
+            "order": 2
+          },
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "y",
+            "order": 2
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "k"
+                  },
+                  {
+                    "type": "param",
+                    "name": "k"
+                  }
+                ]
+              },
+              {
+                "type": "dep",
+                "name": "u"
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "const",
+        "value": 0
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "y": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "sin",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 3.141592653589793
+              },
+              {
+                "type": "var",
+                "name": "x"
+              }
+            ]
+          }
+        ]
+      },
+      "notes": "Dirichlet: u(x,0) = sin(pi x)"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": "outer_boundary",
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "absorbing boundary approximation on outer boundary (u=0)"
+    }
+  ]
+}

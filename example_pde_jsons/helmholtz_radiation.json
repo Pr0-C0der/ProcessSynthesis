@@ -1,0 +1,92 @@
+{
+  "metadata": {
+    "name": "helmholtz_radiation",
+    "description": "Helmholtz equation with Sommerfeld radiation boundary on an artificial boundary."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "y"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "k": 10.0
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "y": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "helmholtz_radiation",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "x",
+            "order": 2
+          },
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "y",
+            "order": 2
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "k"
+                  },
+                  {
+                    "type": "param",
+                    "name": "k"
+                  }
+                ]
+              },
+              {
+                "type": "dep",
+                "name": "u"
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "const",
+        "value": 0.0
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "sommerfeld",
+      "dep": "u",
+      "spec": "artificial_boundary",
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "Sommerfeld radiation condition approximated on artificial boundary"
+    }
+  ]
+}

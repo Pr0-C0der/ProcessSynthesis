@@ -1,0 +1,140 @@
+{
+  "metadata": {
+    "name": "fractional_heat_formal",
+    "description": "Fractional heat equation: u_t = -D (-Delta)^{alpha/2} u in 1D with D=1.0, alpha=1.5, initial condition u(x,0)=exp(-100*(x-0.5)^2), decay at boundaries approximating infinity."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "D": 1.0,
+    "alpha": 1.5
+  },
+  "domain": {
+    "x": [
+      -10.0,
+      10.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "u_t_fractional_heat",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "const",
+            "value": -1.0
+          },
+          {
+            "type": "fn",
+            "name": "frac_laplacian",
+            "args": [
+              {
+                "type": "const",
+                "value": 0.75
+              },
+              {
+                "type": "dep",
+                "name": "u"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "exp",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -100.0
+              },
+              {
+                "type": "op",
+                "op": "^",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "+",
+                    "args": [
+                      {
+                        "type": "dep",
+                        "name": "x"
+                      },
+                      {
+                        "type": "const",
+                        "value": -0.5
+                      }
+                    ]
+                  },
+                  {
+                    "type": "const",
+                    "value": 2
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": -10.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "far-field boundary: u -> 0 as |x| -> infinity"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 10.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "far-field boundary: u -> 0 as |x| -> infinity"
+    }
+  ]
+}

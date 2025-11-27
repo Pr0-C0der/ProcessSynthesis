@@ -1,0 +1,140 @@
+{
+  "metadata": {
+    "name": "poisson_2d",
+    "description": "2D Poisson equation: u_xx + u_yy = f(x,y) on [0,1]^2 with Dirichlet boundary condition u=0 on boundary. f(x,y) = 2*pi^2*sin(pi x)*sin(pi y)."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "y"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "pi": 3.141592653589793
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "y": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "poisson_2d",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "x",
+            "order": 2
+          },
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "y",
+            "order": 2
+          }
+        ]
+      },
+      "rhs": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "const",
+            "value": 2
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "pi"
+                  },
+                  {
+                    "type": "param",
+                    "name": "pi"
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "fn",
+                    "name": "sin",
+                    "args": [
+                      {
+                        "type": "op",
+                        "op": "*",
+                        "args": [
+                          {
+                            "type": "param",
+                            "name": "pi"
+                          },
+                          {
+                            "type": "var",
+                            "name": "x"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "fn",
+                    "name": "sin",
+                    "args": [
+                      {
+                        "type": "op",
+                        "op": "*",
+                        "args": [
+                          {
+                            "type": "param",
+                            "name": "pi"
+                          },
+                          {
+                            "type": "var",
+                            "name": "y"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": "boundary",
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "u = 0 on boundary of unit square"
+    }
+  ]
+}

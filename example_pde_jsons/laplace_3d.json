@@ -1,0 +1,149 @@
+{
+  "metadata": {
+    "name": "Laplace_3D (u) on [0,1]^3 with Dirichlet boundary",
+    "description": "Laplace equation u_xx + u_yy + u_zz = 0 in a 3D unit cube with prescribed Dirichlet boundary: u(0,y,z) = sin(pi*y) sin(pi*z); u = 0 on all other faces."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "y",
+      "z"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {},
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "y": [
+      0.0,
+      1.0
+    ],
+    "z": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "laplace_3d",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "x",
+            "order": 2
+          },
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "y",
+            "order": 2
+          },
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "z",
+            "order": 2
+          }
+        ]
+      },
+      "rhs": {
+        "type": "const",
+        "value": 0
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "u_bc_x0",
+        "args": [
+          {
+            "type": "var",
+            "name": "y"
+          },
+          {
+            "type": "var",
+            "name": "z"
+          }
+        ]
+      },
+      "notes": "u = sin(pi*y) sin(pi*z) on x=0"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "u = 0 on x = 1 face"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "y": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "u = 0 on y = 0 face"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "y": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "u = 0 on y = 1 face"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "z": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "u = 0 on z = 0 face"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "z": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "u = 0 on z = 1 face"
+    }
+  ]
+}

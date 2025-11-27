@@ -1,0 +1,191 @@
+{
+  "metadata": {
+    "name": "fokker_planck_1d",
+    "description": "1D Fokker–Planck equation: p_t = - d/dx (mu(x) p) + D p_xx with mu(x) = -x, D = 0.001; initial Gaussian on [0,1], zero-flux boundaries."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "p"
+    ]
+  },
+  "parameters": {
+    "D": 0.001
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "p_fokker_planck_1d",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "p",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "dep",
+            "name": "p"
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "var",
+                "name": "x"
+              },
+              {
+                "type": "deriv",
+                "dep": "p",
+                "wrt": "x",
+                "order": 1
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "D"
+              },
+              {
+                "type": "deriv",
+                "dep": "p",
+                "wrt": "x",
+                "order": 2
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "p",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "p0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "neumann",
+      "dep": "p",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "var",
+                "name": "x"
+              },
+              {
+                "type": "dep",
+                "name": "p"
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "D"
+              },
+              {
+                "type": "deriv",
+                "dep": "p",
+                "wrt": "x",
+                "order": 1
+              }
+            ]
+          }
+        ]
+      },
+      "notes": "zero-flux: mu(x)p - D p_x = 0 at x=0; with mu(x) = -x this is equivalent to x p + D p_x = 0"
+    },
+    {
+      "type": "neumann",
+      "dep": "p",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "var",
+                "name": "x"
+              },
+              {
+                "type": "dep",
+                "name": "p"
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "D"
+              },
+              {
+                "type": "deriv",
+                "dep": "p",
+                "wrt": "x",
+                "order": 1
+              }
+            ]
+          }
+        ]
+      },
+      "notes": "zero-flux: mu(x)p - D p_x = 0 at x=1; with mu(x) = -x this is equivalent to x p + D p_x = 0"
+    }
+  ]
+}

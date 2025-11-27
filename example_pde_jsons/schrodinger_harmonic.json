@@ -1,0 +1,209 @@
+{
+  "metadata": {
+    "name": "Schrodinger harmonic oscillator (psi)",
+    "description": "1D Schrodinger equation for a harmonic potential: i hbar psi_t = -(hbar^2/(2m)) psi_xx + (1/2) m omega^2 x^2 psi, with initial and boundary conditions."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "psi"
+    ]
+  },
+  "parameters": {
+    "hbar": 1.0,
+    "m": 1.0,
+    "omega": 2.0
+  },
+  "domain": {
+    "x": [
+      -10.0,
+      10.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "schrodinger_harmonic",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "const",
+            "value": "i"
+          },
+          {
+            "type": "param",
+            "name": "hbar"
+          },
+          {
+            "type": "deriv",
+            "dep": "psi",
+            "wrt": "t",
+            "order": 1
+          }
+        ]
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -1
+              },
+              {
+                "type": "op",
+                "op": "/",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "param",
+                        "name": "hbar"
+                      },
+                      {
+                        "type": "param",
+                        "name": "hbar"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": 2
+                      },
+                      {
+                        "type": "param",
+                        "name": "m"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "deriv",
+                "dep": "psi",
+                "wrt": "x",
+                "order": 2
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 0.5
+              },
+              {
+                "type": "param",
+                "name": "m"
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "param",
+                        "name": "omega"
+                      },
+                      {
+                        "type": "param",
+                        "name": "omega"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "var",
+                        "name": "x"
+                      },
+                      {
+                        "type": "var",
+                        "name": "x"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "dep",
+                "name": "psi"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "psi",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "psi0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "psi",
+      "spec": {
+        "x": -10.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "Dirichlet boundary at left end (psi -> 0)"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "psi",
+      "spec": {
+        "x": 10.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "Dirichlet boundary at right end (psi -> 0)"
+    }
+  ]
+}

@@ -1,0 +1,259 @@
+{
+  "metadata": {
+    "name": "serre_equations_1d",
+    "description": "One-dimensional Serre-type shallow water system in x-t with h and u, including initial and periodic boundary conditions."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "h",
+      "u"
+    ]
+  },
+  "parameters": {
+    "g": 9.81
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "h_equation",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "h",
+            "wrt": "t",
+            "order": 1
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "h",
+                    "wrt": "x",
+                    "order": 1
+                  },
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "h"
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "const",
+        "value": 0
+      }
+    },
+    {
+      "equation_id": "u_equation",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "u",
+            "wrt": "t",
+            "order": 1
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 1
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "g"
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "h",
+                    "wrt": "x",
+                    "order": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "op",
+                "op": "/",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": -1
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": 3
+                      },
+                      {
+                        "type": "dep",
+                        "name": "h"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "fn",
+                "name": "d_dx_of_h3_E",
+                "args": [
+                  {
+                    "type": "var",
+                    "name": "x"
+                  },
+                  {
+                    "type": "var",
+                    "name": "t"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "fn",
+        "name": "d_dx_of_h3_E",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          },
+          {
+            "type": "var",
+            "name": "t"
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "h",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "h0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          },
+          {
+            "type": "var",
+            "name": "t"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "u0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          },
+          {
+            "type": "var",
+            "name": "t"
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "periodic",
+      "dep": "h",
+      "spec": "boundary",
+      "notes": "periodic in x over [0,1]"
+    },
+    {
+      "type": "periodic",
+      "dep": "u",
+      "spec": "boundary",
+      "notes": "periodic in x over [0,1]"
+    }
+  ]
+}

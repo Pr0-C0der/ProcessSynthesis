@@ -1,0 +1,174 @@
+{
+  "metadata": {
+    "name": "Kolmogorov forward PDE (Fokker–Planck) for p(x,t)",
+    "description": "Scalar Fokker–Planck equation: p_t = -∂_x[a(x) p] + 1/2 ∂_{xx}[b(x)^2 p], with Gaussian-like initial condition and zero-flux boundaries at x=0 and x=1."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "p"
+    ]
+  },
+  "parameters": {
+    "a": {
+      "definition": "0.1*(1-2x)"
+    },
+    "b": {
+      "definition": "0.2"
+    }
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "kolmogorov_forward",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "p",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": -1
+              },
+              {
+                "type": "op",
+                "op": "+",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": -0.2
+                      },
+                      {
+                        "type": "dep",
+                        "name": "p"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "fn",
+                        "name": "a",
+                        "args": [
+                          {
+                            "type": "var",
+                            "name": "x"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "deriv",
+                        "dep": "p",
+                        "wrt": "x",
+                        "order": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 0.5
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": 0.04
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "p",
+                    "wrt": "x",
+                    "order": 2
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "p",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "p0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "neumann",
+      "dep": "p",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "zero flux at left boundary x=0"
+    },
+    {
+      "type": "neumann",
+      "dep": "p",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "zero flux at right boundary x=1"
+    }
+  ]
+}

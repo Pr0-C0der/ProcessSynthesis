@@ -1,0 +1,186 @@
+{
+  "metadata": {
+    "name": "two_phase_flow_fractional",
+    "description": "1D fractional two-phase flow: s_t + d/dx f(s) = - d/dx ( D(s) s_x ), with f(s) = s^2/(s^2+(1-s)^2) and D(s) = 0.001"
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "s"
+    ]
+  },
+  "parameters": {
+    "f_of_s": null,
+    "D_of_s": 0.001
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "two_phase_flow_fractional",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "s",
+            "wrt": "t",
+            "order": 1
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "fn",
+                "name": "f_prime",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "s"
+                  }
+                ]
+              },
+              {
+                "type": "deriv",
+                "dep": "s",
+                "wrt": "x",
+                "order": 1
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "op",
+        "op": "*",
+        "args": [
+          {
+            "type": "const",
+            "value": -0.001
+          },
+          {
+            "type": "deriv",
+            "dep": "s",
+            "wrt": "x",
+            "order": 2
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "s",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "s0",
+        "args": [
+          {
+            "type": "var",
+            "name": "x"
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "neumann",
+      "dep": "s",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "-",
+        "args": [
+          {
+            "type": "fn",
+            "name": "f",
+            "args": [
+              {
+                "type": "dep",
+                "name": "s"
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 0.001
+              },
+              {
+                "type": "deriv",
+                "dep": "s",
+                "wrt": "x",
+                "order": 1
+              }
+            ]
+          }
+        ]
+      },
+      "notes": "no-flux: flux (f(s) - D(s) s_x) = 0 at x = 0 boundary"
+    },
+    {
+      "type": "neumann",
+      "dep": "s",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "-",
+        "args": [
+          {
+            "type": "fn",
+            "name": "f",
+            "args": [
+              {
+                "type": "dep",
+                "name": "s"
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 0.001
+              },
+              {
+                "type": "deriv",
+                "dep": "s",
+                "wrt": "x",
+                "order": 1
+              }
+            ]
+          }
+        ]
+      },
+      "notes": "no-flux: flux (f(s) - D(s) s_x) = 0 at x = 1 boundary"
+    }
+  ]
+}

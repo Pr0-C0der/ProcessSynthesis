@@ -1,0 +1,148 @@
+{
+  "metadata": {
+    "name": "degenerate_diffusion (u_t = (u^m)_{xx})",
+    "description": "Nonlinear degenerate diffusion equation with m>1: u_t = ∂^2_x(u^m)."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {
+    "m": 3
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "degenerate_diffusion",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "u",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "deriv",
+        "dep": {
+          "type": "fn",
+          "name": "pow",
+          "args": [
+            {
+              "type": "dep",
+              "name": "u"
+            },
+            {
+              "type": "const",
+              "value": 3
+            }
+          ]
+        },
+        "wrt": "x",
+        "order": 2
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "fn",
+        "name": "max",
+        "args": [
+          {
+            "type": "const",
+            "value": 0
+          },
+          {
+            "type": "op",
+            "op": "-",
+            "args": [
+              {
+                "type": "const",
+                "value": 1
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": 100
+                  },
+                  {
+                    "type": "fn",
+                    "name": "pow",
+                    "args": [
+                      {
+                        "type": "op",
+                        "op": "-",
+                        "args": [
+                          {
+                            "type": "var",
+                            "name": "x"
+                          },
+                          {
+                            "type": "const",
+                            "value": 0.5
+                          }
+                        ]
+                      },
+                      {
+                        "type": "const",
+                        "value": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "u = 0 at left boundary x = 0"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "u = 0 at right boundary x = 1"
+    }
+  ]
+}

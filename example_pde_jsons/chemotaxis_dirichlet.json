@@ -1,0 +1,389 @@
+{
+  "metadata": {
+    "name": "chemotaxis_dirichlet",
+    "description": "1D Keller–Segel-like chemotaxis system with Dirichlet boundary conditions for n and c, using D_n, D_c and chi as parameters."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "n",
+      "c"
+    ]
+  },
+  "parameters": {
+    "D_n": 0.001,
+    "D_c": 0.01,
+    "chi": 0.5,
+    "a": null,
+    "b": null
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "n_equation",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "n",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "D_n"
+              },
+              {
+                "type": "deriv",
+                "dep": "n",
+                "wrt": "x",
+                "order": 2
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": -1
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "param",
+                        "name": "chi"
+                      },
+                      {
+                        "type": "op",
+                        "op": "*",
+                        "args": [
+                          {
+                            "type": "deriv",
+                            "dep": "n",
+                            "wrt": "x",
+                            "order": 1
+                          },
+                          {
+                            "type": "deriv",
+                            "dep": "c",
+                            "wrt": "x",
+                            "order": 1
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": -1
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "param",
+                        "name": "chi"
+                      },
+                      {
+                        "type": "op",
+                        "op": "*",
+                        "args": [
+                          {
+                            "type": "dep",
+                            "name": "n"
+                          },
+                          {
+                            "type": "deriv",
+                            "dep": "c",
+                            "wrt": "x",
+                            "order": 2
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "equation_id": "c_equation",
+      "type": "equals",
+      "lhs": {
+        "type": "deriv",
+        "dep": "c",
+        "wrt": "t",
+        "order": 1
+      },
+      "rhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "param",
+                "name": "D_c"
+              },
+              {
+                "type": "deriv",
+                "dep": "c",
+                "wrt": "x",
+                "order": 2
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "param",
+                    "name": "a"
+                  },
+                  {
+                    "type": "dep",
+                    "name": "n"
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "const",
+                    "value": -1
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "param",
+                        "name": "b"
+                      },
+                      {
+                        "type": "dep",
+                        "name": "c"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "n",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "const",
+            "value": 0.1
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 0.01
+              },
+              {
+                "type": "fn",
+                "name": "sin",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": 2
+                      },
+                      {
+                        "type": "op",
+                        "op": "*",
+                        "args": [
+                          {
+                            "type": "const",
+                            "value": 3.141592653589793
+                          },
+                          {
+                            "type": "dep",
+                            "name": "x"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "c",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "const",
+            "value": 1
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 0.05
+              },
+              {
+                "type": "fn",
+                "name": "cos",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": 2
+                      },
+                      {
+                        "type": "op",
+                        "op": "*",
+                        "args": [
+                          {
+                            "type": "const",
+                            "value": 3.141592653589793
+                          },
+                          {
+                            "type": "dep",
+                            "name": "x"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "n",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.1
+      },
+      "notes": "Dirichlet boundary: n = 0.1 at x = 0"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "n",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.1
+      },
+      "notes": "Dirichlet boundary: n = 0.1 at x = 1"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "c",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 1.0
+      },
+      "notes": "Dirichlet boundary: c = 1 at x = 0"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "c",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 1.0
+      },
+      "notes": "Dirichlet boundary: c = 1 at x = 1"
+    }
+  ]
+}

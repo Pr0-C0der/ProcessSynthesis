@@ -1,0 +1,99 @@
+{
+  "metadata": {
+    "name": "2D Eikonal (u) - |grad u| = 1 with Dirichlet boundary",
+    "description": "Single PDE: eikonal equation |grad u| = 1 in 2D with Dirichlet boundary on a circle."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "y"
+    ],
+    "dependent": [
+      "u"
+    ]
+  },
+  "parameters": {},
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "y": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "eikonal_eq",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "x",
+                "order": 1
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "x",
+                "order": 1
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "y",
+                "order": 1
+              },
+              {
+                "type": "deriv",
+                "dep": "u",
+                "wrt": "y",
+                "order": 1
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "const",
+        "value": 1
+      }
+    }
+  ],
+  "initial_conditions": [],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "circle": {
+          "center": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "radius": 0.05
+        }
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "Dirichlet: u = 0 on circle centered at (0.5,0.5) with radius 0.05"
+    }
+  ]
+}

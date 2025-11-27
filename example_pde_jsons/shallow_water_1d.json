@@ -1,0 +1,405 @@
+{
+  "metadata": {
+    "name": "1D Shallow Water (h,u) - 2 PDE system",
+    "description": "Shallow water equations in conservative form in 1D: h_t + (h u)_x = 0, (h u)_t + (h u^2 + 0.5 g h^2)_x = 0, with initial and boundary conditions."
+  },
+  "variables": {
+    "independent": [
+      "x",
+      "t"
+    ],
+    "dependent": [
+      "h",
+      "u"
+    ]
+  },
+  "parameters": {
+    "g": 9.81
+  },
+  "domain": {
+    "x": [
+      0.0,
+      1.0
+    ],
+    "t": [
+      0.0,
+      1.0
+    ]
+  },
+  "pdes": [
+    {
+      "equation_id": "mass_conservation",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "deriv",
+            "dep": "h",
+            "wrt": "t",
+            "order": 1
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "h",
+                    "wrt": "x",
+                    "order": 1
+                  },
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "h"
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "x",
+                    "order": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "const",
+        "value": 0
+      }
+    },
+    {
+      "equation_id": "momentum_conservation",
+      "type": "equals",
+      "lhs": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "deriv",
+                    "dep": "h",
+                    "wrt": "t",
+                    "order": 1
+                  },
+                  {
+                    "type": "dep",
+                    "name": "u"
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "*",
+                "args": [
+                  {
+                    "type": "dep",
+                    "name": "h"
+                  },
+                  {
+                    "type": "deriv",
+                    "dep": "u",
+                    "wrt": "t",
+                    "order": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "op",
+            "op": "+",
+            "args": [
+              {
+                "type": "op",
+                "op": "+",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "deriv",
+                        "dep": "h",
+                        "wrt": "x",
+                        "order": 1
+                      },
+                      {
+                        "type": "op",
+                        "op": "*",
+                        "args": [
+                          {
+                            "type": "dep",
+                            "name": "u"
+                          },
+                          {
+                            "type": "dep",
+                            "name": "u"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "dep",
+                        "name": "h"
+                      },
+                      {
+                        "type": "op",
+                        "op": "*",
+                        "args": [
+                          {
+                            "type": "dep",
+                            "name": "u"
+                          },
+                          {
+                            "type": "deriv",
+                            "dep": "u",
+                            "wrt": "x",
+                            "order": 1
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "op",
+                "op": "+",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "deriv",
+                        "dep": "h",
+                        "wrt": "x",
+                        "order": 1
+                      },
+                      {
+                        "type": "op",
+                        "op": "*",
+                        "args": [
+                          {
+                            "type": "dep",
+                            "name": "u"
+                          },
+                          {
+                            "type": "deriv",
+                            "dep": "u",
+                            "wrt": "x",
+                            "order": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "dep",
+                        "name": "h"
+                      },
+                      {
+                        "type": "op",
+                        "op": "*",
+                        "args": [
+                          {
+                            "type": "dep",
+                            "name": "u"
+                          },
+                          {
+                            "type": "deriv",
+                            "dep": "u",
+                            "wrt": "x",
+                            "order": 1
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rhs": {
+        "type": "const",
+        "value": 0
+      }
+    }
+  ],
+  "initial_conditions": [
+    {
+      "type": "ic",
+      "dep": "h",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "op",
+        "op": "+",
+        "args": [
+          {
+            "type": "const",
+            "value": 1.0
+          },
+          {
+            "type": "op",
+            "op": "*",
+            "args": [
+              {
+                "type": "const",
+                "value": 0.2
+              },
+              {
+                "type": "fn",
+                "name": "exp",
+                "args": [
+                  {
+                    "type": "op",
+                    "op": "*",
+                    "args": [
+                      {
+                        "type": "const",
+                        "value": -200
+                      },
+                      {
+                        "type": "op",
+                        "op": "*",
+                        "args": [
+                          {
+                            "type": "op",
+                            "op": "-",
+                            "args": [
+                              {
+                                "type": "var",
+                                "name": "x"
+                              },
+                              {
+                                "type": "const",
+                                "value": 0.5
+                              }
+                            ]
+                          },
+                          {
+                            "type": "op",
+                            "op": "-",
+                            "args": [
+                              {
+                                "type": "var",
+                                "name": "x"
+                              },
+                              {
+                                "type": "const",
+                                "value": 0.5
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "ic",
+      "dep": "u",
+      "location": {
+        "t": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      }
+    }
+  ],
+  "boundary_conditions": [
+    {
+      "type": "dirichlet",
+      "dep": "h",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 1.0
+      },
+      "notes": "inflow: h at x=0"
+    },
+    {
+      "type": "dirichlet",
+      "dep": "u",
+      "spec": {
+        "x": 0.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "inflow: u at x=0"
+    },
+    {
+      "type": "neumann",
+      "dep": "h",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "outflow: zero gradient for h"
+    },
+    {
+      "type": "neumann",
+      "dep": "u",
+      "spec": {
+        "x": 1.0
+      },
+      "value_expr": {
+        "type": "const",
+        "value": 0.0
+      },
+      "notes": "outflow: zero gradient for u"
+    }
+  ]
+}
